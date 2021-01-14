@@ -1,0 +1,22 @@
+.header {
+  margin: $margin-auto;
+  padding-top: 30px;
+  width: $desktop-container-width;
+
+  &__welcome {
+    padding: 0 10px;
+    font-size: 36px;
+    line-height: 56px;
+    text-align: center;
+  }
+
+  &__single-word {
+    opacity: 0;
+
+    &--fade-in {
+      animation-name: fade-in;
+      animation-duration: 1s;
+      animation-fill-mode: forwards;
+    }
+  }
+}
