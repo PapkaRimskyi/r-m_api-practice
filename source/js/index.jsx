@@ -6,6 +6,8 @@ import '../sass/style.scss';
 import '../img/main-background-img.jpg';
 
 import Header from './blocks/header/header';
+import Main from './blocks/main/main';
+import Footer from './blocks/footer/footer';
 
 // fetch('https://rickandmortyapi.com/api/character')
 //   .then((response) => response.json())
@@ -15,7 +17,11 @@ const root = document.getElementById('root');
 
 function Test() {
   return (
-    <Header />
+    <>
+      <Header />
+      <Main />
+      <Footer />
+    </>
   );
 }
 

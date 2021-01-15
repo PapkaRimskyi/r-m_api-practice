@@ -1,0 +1,27 @@
+.loading-options {
+  margin-bottom: 60px;
+
+  &__headline {
+    margin-bottom: 40px;
+    font-size: 36px;
+    line-height: 46px;
+    text-align: center;
+  }
+
+  &__item {
+    font-size: 22px;
+    line-height: 32px;
+    text-align: center;
+  }
+
+  &__load-button {
+    &:hover,
+    &:focus {
+      animation: trembling-animation .8s infinite ease-in-out;
+    }
+
+    &:active {
+      animation: size-to-small forwards .5s 1;
+    }
+  }
+}

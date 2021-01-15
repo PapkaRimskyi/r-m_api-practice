@@ -1,3 +1,4 @@
+@import "~bootstrap/scss/bootstrap";
 @import "variables.scss";
 @import "global.scss";
 
@@ -5,4 +6,6 @@
 
 @import "./blocks/entrance-block.scss";
 
-@import "../js/blocks/header/header.scss";
+@import "./connection-files/header-connection-file.scss";
+@import "./connection-files/main-connection-file.scss";
+@import "./connection-files/footer-connection-file.scss";

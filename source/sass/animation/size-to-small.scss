@@ -1,0 +1,9 @@
+@keyframes size-to-small {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(.6);
+    color: $white-color;
+  }
+}

@@ -17,7 +17,6 @@
 body {
   position: relative;
   margin: 0;
-  min-height: 100vh;
   font-family: 'RaM', 'Misfits', serif;
   font: {
     size: 16px;
@@ -35,10 +34,19 @@ body {
     width: 100%;
     height: 100%;
     background-image: url('../img/main-background-img.jpg');
+    background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
     opacity: .3;
   }
+}
+
+#root {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
 }
 
 * {
