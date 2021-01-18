@@ -10,7 +10,8 @@
     transition: color, opacity, .5s ease-in;
     text-align: center;
 
-    &:hover {
+    &:hover,
+    &:focus {
       color: $author-color-hover;
     }
 
