@@ -1,5 +1,14 @@
 .info-section {
+  position: relative;
   margin-bottom: 35px;
+
+  &__total-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 1.3rem;
+    color: $total-color;
+  }
 
   &__item {
     display: flex;
@@ -32,8 +41,23 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  &__character-info,
+  &__location-info,
+  &__episode-info {
     font-size: 1.5rem;
     line-height: 2rem;
+  }
+
+  &__location-info-list,
+  &__episode-info-list {
+    text-align: center;
+  }
+
+  &__location-info,
+  &__episode-info {
+    border-bottom: 1px solid $black-color;
   }
 }
 
@@ -59,18 +83,25 @@
 }
 
 @include media-breakpoint-up(lg) {
-  .info-section{
+  .info-section {
 
     &__item {
       flex-direction: row;
       align-items: flex-start;
+
+      &--location,
+      &--episode {
+        justify-content: center;
+      }
     }
 
     &__character-photo {
       margin-right: 10px;
     }
 
-    &__character-info {
+    &__character-info,
+    &__location-info,
+    &__episode-info {
       font-size: 2rem;
       line-height: 2.5rem;
     }
