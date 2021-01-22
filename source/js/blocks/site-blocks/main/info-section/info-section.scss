@@ -24,6 +24,10 @@
   &__character-photo {
     margin-bottom: 15px;
     width: 300px;
+
+    & img {
+      border-radius: 30%;
+    }
   }
 
   &__img-description {
@@ -44,20 +48,42 @@
   }
 
   &__character-info,
-  &__location-info,
-  &__episode-info {
+  &__location-info {
     font-size: 1.5rem;
     line-height: 2rem;
   }
 
-  &__location-info-list,
-  &__episode-info-list {
+  &__location-info-list {
     text-align: center;
   }
 
-  &__location-info,
-  &__episode-info {
+  &__location-info {
     border-bottom: 1px solid $black-color;
+  }
+
+  &__table-container {
+    overflow-x: scroll;
+  }
+
+  &__table-info {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+  }
+
+  &__table-th {
+    padding: 0 10px 25px 10px;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    color: $th-color;
+    border-bottom: 2px solid $black-color;
+  }
+
+  &__table-td {
+    padding: 20px 15px;
+    font-size: 1.2rem;
+    line-height: 1.7rem;
+    color: $td-color;
   }
 }
 
@@ -78,6 +104,20 @@
 
     &__main-information {
       margin-top: auto;
+    }
+
+    &__table-container {
+      overflow-x: hidden;
+    }
+
+    &__table-th {
+      font-size: 2rem;
+      line-height: 2.5rem;
+    }
+
+    &__table-td {
+      font-size: 1.5rem;
+      line-height: 2rem;
     }
   }
 }
@@ -100,15 +140,24 @@
     }
 
     &__character-info,
-    &__location-info,
-    &__episode-info {
+    &__location-info {
       font-size: 2rem;
       line-height: 2.5rem;
     }
 
     &__main-information {
-      margin-top: 5px;
+      margin-top: 30px;
       align-self: flex-start;
+    }
+
+    &__table-th {
+      font-size: 2.5rem;
+      line-height: 3rem;
+    }
+
+    &__table-td {
+      font-size: 2rem;
+      line-height: 2.5rem;
     }
   }
 }

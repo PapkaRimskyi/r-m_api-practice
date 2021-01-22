@@ -1,17 +1,40 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function LocationsTemplate({ data }) {
   const { results } = data;
   return (
-    results.map(({ id, name, type, dimension, residents }) => (
-      <li className="info-section__item info-section__item--location" id={id}>
-        <ul className="info-section__location-info-list">
-          <li className="info-section__location-info">Location name - {name}</li>
-          <li className="info-section__location-info">Type - {type}</li>
-          <li className="info-section__location-info">Dimension - {dimension}</li>
-          <li className="info-section__location-info">The location was visited by {residents.length} characte{residents.length > 1 ? 'rs' : 'r'}</li>
-        </ul>
-      </li>
-    ))
+    <div className="row gy-5 info-section__table-container">
+      <table className="info-section__table-info">
+        <tbody>
+          <tr>
+            <th className="info-section__table-th">Location name</th>
+            <th className="info-section__table-th">Type</th>
+            <th className="info-section__table-th">Dimension</th>
+            <th className="info-section__table-th">Location visitors</th>
+          </tr>
+          {results.map(({ id, name, type, dimension, residents }) => (
+            <tr key={id}>
+              <td className="info-section__table-td">{name}</td>
+              <td className="info-section__table-td">{type}</td>
+              <td className="info-section__table-td">{dimension}</td>
+              <td className="info-section__table-td">{residents.length}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
+
+LocationsTemplate.propTypes = {
+  data: PropTypes.shape({
+    info: PropTypes.shape({
+      count: PropTypes.number,
+      next: PropTypes.string,
+      pages: PropTypes.number,
+      prev: PropTypes.number,
+    }),
+    results: PropTypes.arrayOf(PropTypes.object),
+  }).isRequired,
+};

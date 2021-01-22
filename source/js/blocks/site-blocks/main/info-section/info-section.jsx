@@ -28,16 +28,22 @@ export default function InfoSection({ info }) {
     <section className="info-section">
       <h2 className="visually-hidden">Полученная информация</h2>
       <p className="info-section__total-info">Total {infoType}: {data.info.count}</p>
-      <ul className="row row-cols-1 row-cols-md-2 gy-5 info-section__list">
-        {defineTemplate(data, infoType)}
-      </ul>
+      {defineTemplate(data, infoType)}
     </section>
   );
 }
 
 InfoSection.propTypes = {
   info: PropTypes.shape({
-    data: PropTypes.objectOf(),
+    data: PropTypes.shape({
+      info: PropTypes.shape({
+        count: PropTypes.number,
+        next: PropTypes.string,
+        pages: PropTypes.number,
+        prev: PropTypes.number,
+      }),
+      results: PropTypes.arrayOf(PropTypes.object),
+    }),
     infoType: PropTypes.string,
   }),
 };
