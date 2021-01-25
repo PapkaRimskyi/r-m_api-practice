@@ -1,14 +1,13 @@
 .header {
-  margin-bottom: 80px;
   position: relative;
+  margin-bottom: 80px;
   padding-top: 30px;
 
   &__welcome {
     margin: $margin-auto;
     padding: 0 10px;
-    width: 50%;
-    font-size: 36px;
-    line-height: 56px;
+    font-size: 2.3rem;
+    line-height: 2.8rem;
     text-align: center;
   }
 
@@ -16,9 +15,7 @@
     opacity: 0;
 
     &--fade-in {
-      animation-name: appearance;
-      animation-duration: 1s;
-      animation-fill-mode: forwards;
+      animation: appearance 1s forwards;
     }
   }
 }

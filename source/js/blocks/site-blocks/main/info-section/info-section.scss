@@ -10,7 +10,7 @@
     color: $total-color;
   }
 
-  &__item {
+  &__character {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -30,14 +30,14 @@
     }
   }
 
-  &__img-description {
+  &__character-name {
     font-size: 2rem;
     line-height: 2.5rem;
     text-align: center;
     text-decoration: underline;
   }
 
-  &__info-item:not(:last-of-type) {
+  &__option-item:not(:last-of-type) {
     margin-bottom: 10px;
   }
 
@@ -45,20 +45,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-
-  &__character-info,
-  &__location-info {
     font-size: 1.5rem;
     line-height: 2rem;
-  }
-
-  &__location-info-list {
-    text-align: center;
-  }
-
-  &__location-info {
-    border-bottom: 1px solid $black-color;
   }
 
   &__table-container {
@@ -90,8 +78,7 @@
 @include media-breakpoint-up(md) {
   .info-section {
 
-    &__item {
-
+    &__character {
       & svg {
         width: 35px;
         height: 35px;
@@ -102,7 +89,7 @@
       margin-right: 20px;
     }
 
-    &__main-information {
+    &__character-main-information {
       margin-top: auto;
     }
 
@@ -125,7 +112,7 @@
 @include media-breakpoint-up(lg) {
   .info-section {
 
-    &__item {
+    &__character {
       flex-direction: row;
       align-items: flex-start;
 
@@ -139,15 +126,14 @@
       margin-right: 10px;
     }
 
-    &__character-info,
-    &__location-info {
-      font-size: 2rem;
-      line-height: 2.5rem;
-    }
-
-    &__main-information {
+    &__character-main-information {
       margin-top: 30px;
       align-self: flex-start;
+    }
+
+    &__character-info {
+      font-size: 2rem;
+      line-height: 2.5rem;
     }
 
     &__table-th {
