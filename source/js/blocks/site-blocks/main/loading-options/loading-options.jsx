@@ -9,13 +9,13 @@ export default function LoadingOptions({ buttonHandler }) {
       <h2 className="loading-options__headline">Type of loaded info:</h2>
       <ul className="row justify-content-between loading-options__list" onClick={buttonHandler}>
         <li className="col loading-options__item">
-          <button id="characters" className="loading-options__load-button" type="button">Characters</button>
+          <button id="character" className="loading-options__load-button" type="button">Characters</button>
         </li>
         <li className="col loading-options__item">
-          <button id="locations" className="loading-options__load-button" type="button">Locations</button>
+          <button id="location" className="loading-options__load-button" type="button">Locations</button>
         </li>
         <li className="col loading-options__item">
-          <button id="episodes" className="loading-options__load-button" type="button">Episodes</button>
+          <button id="episode" className="loading-options__load-button" type="button">Episodes</button>
         </li>
       </ul>
     </section>

@@ -18,13 +18,16 @@ export default function CharactersTemplate({ data }) {
               <h2 className="visually-hidden">Information about character</h2>
               <ul className="info-section__option-list">
                 <li className="info-section__option-item">
-                  <p className="info-section__character-info">{getSpecialIcon(gender)} - {gender}</p>
+                  <p className="info-section__option-icon">{getSpecialIcon(gender)}</p>
+                  <p className="info-section__character-info">{`- ${gender}`}</p>
                 </li>
                 <li className="info-section__option-item">
-                  <p className="info-section__character-info">{getSpecialIcon(species)} - {species}</p>
+                  <p className="info-section__option-icon">{getSpecialIcon(species)}</p>
+                  <p className="info-section__character-info">{`- ${species}`}</p>
                 </li>
                 <li className="info-section__option-item">
-                  <p className="info-section__character-info">{getSpecialIcon(status)} - {status}</p>
+                  <p className="info-section__option-icon">{getSpecialIcon(status)}</p>
+                  <p className="info-section__character-info">{`- ${status}`}</p>
                 </li>
               </ul>
             </section>
@@ -39,9 +42,15 @@ CharactersTemplate.propTypes = {
   data: PropTypes.shape({
     info: PropTypes.shape({
       count: PropTypes.number,
-      next: PropTypes.string,
+      next: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]),
       pages: PropTypes.number,
-      prev: PropTypes.number,
+      prev: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]),
     }),
     results: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,

@@ -16,14 +16,14 @@ export default function Main() {
     e.preventDefault();
     if (e.target.tagName === 'BUTTON') {
       switch (e.target.id) {
-        case 'characters':
-          dataRequest(CHARACTERS_API, setInfo, 'characters');
+        case 'character':
+          dataRequest(CHARACTERS_API, setInfo, 'character');
           break;
-        case 'locations':
-          dataRequest(LOCATIONS_API, setInfo, 'locations');
+        case 'location':
+          dataRequest(LOCATIONS_API, setInfo, 'location');
           break;
-        case 'episodes':
-          dataRequest(EPISODES_API, setInfo, 'episodes');
+        case 'episode':
+          dataRequest(EPISODES_API, setInfo, 'episode');
           break;
         default:
           break;
@@ -36,7 +36,7 @@ export default function Main() {
   return (
     <main className="container main main--hidden">
       <LoadingOptions buttonHandler={loadInfo} />
-      {info.data && <InfoSection info={info} />}
+      {info.data && <InfoSection info={info} dataRequest={dataRequest} setInfo={setInfo} />}
     </main>
   );
 }

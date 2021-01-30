@@ -31,9 +31,15 @@ LocationsTemplate.propTypes = {
   data: PropTypes.shape({
     info: PropTypes.shape({
       count: PropTypes.number,
-      next: PropTypes.string,
+      next: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]),
       pages: PropTypes.number,
-      prev: PropTypes.number,
+      prev: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]),
     }),
     results: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,

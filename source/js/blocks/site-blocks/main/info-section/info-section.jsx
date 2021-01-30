@@ -5,9 +5,12 @@ import CharactersTemplate from './characters-template/characters-template';
 import LocationsTemplate from './locations-template/locations-template';
 import EpisodesTemplate from './episodes-template/episodes-template';
 import Pagination from '../../../universal/pagination/pagination';
+
 import scrollToElement from '../../../../utils/scroll-to-element';
 
-export default function InfoSection({ info }) {
+import mainApiPath from '../../../../data-request/main-api-path';
+
+export default function InfoSection({ info, dataRequest, setInfo }) {
   const { data, infoType } = info;
   const [page, setPage] = useState(1);
   const infoSection = useRef(null);
@@ -24,11 +27,11 @@ export default function InfoSection({ info }) {
 
   function defineTemplate(renderData, type) {
     switch (type) {
-      case 'characters':
+      case 'character':
         return <CharactersTemplate data={renderData} />;
-      case 'locations':
+      case 'location':
         return <LocationsTemplate data={renderData} />;
-      case 'episodes':
+      case 'episode':
         return <EpisodesTemplate data={renderData} />;
       default:
         return null;
@@ -42,6 +45,7 @@ export default function InfoSection({ info }) {
   function pageHandler(e) {
     e.preventDefault();
     if (e.target.tagName === 'BUTTON') {
+      dataRequest(`${mainApiPath}${infoType}?page=${e.target.textContent}`, setInfo, infoType);
       scrollToElement(infoSection.current);
       setPage(+e.target.textContent);
     }
@@ -64,14 +68,22 @@ InfoSection.propTypes = {
     data: PropTypes.shape({
       info: PropTypes.shape({
         count: PropTypes.number,
-        next: PropTypes.string,
+        next: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.number,
+        ]),
         pages: PropTypes.number,
-        prev: PropTypes.number,
+        prev: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.number,
+        ]),
       }),
       results: PropTypes.arrayOf(PropTypes.object),
     }),
     infoType: PropTypes.string,
   }),
+  dataRequest: PropTypes.func.isRequired,
+  setInfo: PropTypes.func.isRequired,
 };
 
 InfoSection.defaultProps = {

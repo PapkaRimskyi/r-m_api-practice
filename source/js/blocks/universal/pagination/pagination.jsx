@@ -8,26 +8,30 @@ import PageItem from './page-item/page-item';
 import { MAX_PAGE } from '../../../variables';
 
 export default function Pagination({ info, page, pageHandler }) {
-  console.log(info);
-
-  // Создание компонентов по условию.
+  // Создание пагинации по условию. В начале и конце pageCollection всегда будут кнопки на первую страницу и последнюю.
 
   function definePages(pageCount, currentPage) {
-    const itemCollection = [];
+    const pageCollection = [];
     if (currentPage === 1) {
-      for (let i = 1; i <= MAX_PAGE; i += 1) {
-        itemCollection.push(<PageItem number={i} currentPage={currentPage} />);
+      for (let i = 1; i < MAX_PAGE; i += 1) {
+        pageCollection.push(<PageItem key={i} number={i} currentPage={currentPage} />);
       }
+      pageCollection.push(<PageItem key={pageCount} number={pageCount} currentPage={currentPage} />);
     } else if (currentPage !== 1 && currentPage !== pageCount) {
+      pageCollection.push(<PageItem key={1} number={1} currentPage={currentPage} />);
       for (let i = currentPage - 1; i <= currentPage + 1; i += 1) {
-        itemCollection.push(<PageItem number={i} currentPage={currentPage} />);
+        if (i !== 1 && i !== pageCount) {
+          pageCollection.push(<PageItem key={i} number={i} currentPage={currentPage} />);
+        }
       }
+      pageCollection.push(<PageItem key={pageCount} number={pageCount} currentPage={currentPage} />);
     } else {
+      pageCollection.push(<PageItem key={1} number={1} currentPage={currentPage} />);
       for (let i = currentPage - 2; i <= currentPage; i += 1) {
-        itemCollection.push(<PageItem number={i} currentPage={currentPage} />);
+        pageCollection.push(<PageItem key={i} number={i} currentPage={currentPage} />);
       }
     }
-    return itemCollection;
+    return pageCollection;
   }
 
   //

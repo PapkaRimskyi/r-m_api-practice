@@ -8,6 +8,6 @@ export const EPISODES_API = 'https://rickandmortyapi.com/api/episode';
 
 // Максимальное количество кнопок в пагинации
 
-export const MAX_PAGE = 3;
+export const MAX_PAGE = 4;
 
 //
