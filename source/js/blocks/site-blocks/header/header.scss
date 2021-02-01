@@ -7,15 +7,11 @@
     margin: $margin-auto;
     padding: 0 10px;
     font-size: 2.3rem;
-    line-height: 2.8rem;
+    line-height: 2.3rem;
     text-align: center;
   }
 
   &__single-word {
     opacity: 0;
-
-    &--fade-in {
-      animation: appearance 1s forwards;
-    }
   }
 }

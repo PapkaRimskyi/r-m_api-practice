@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../../../img/question-mark.png';
 
 export default function Header() {
   return (

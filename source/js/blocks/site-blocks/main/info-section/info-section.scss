@@ -33,7 +33,7 @@
 
   &__character-name {
     font-size: 2rem;
-    line-height: 2.5rem;
+    line-height: 2rem;
     text-align: center;
     text-decoration: underline;
   }
@@ -54,7 +54,7 @@
 
   &__character-info {
     font-size: 1.5rem;
-    line-height: 2rem;
+    line-height: 1.5rem;
   }
 
 
@@ -71,7 +71,7 @@
   &__table-th {
     padding: 0 10px 25px 10px;
     font-size: 1.5rem;
-    line-height: 2rem;
+    line-height: 1.5rem;
     color: $th-color;
     border-bottom: 2px solid $black-color;
   }
@@ -79,7 +79,7 @@
   &__table-td {
     padding: 20px 15px;
     font-size: 1.2rem;
-    line-height: 1.7rem;
+    line-height: 1.2rem;
     color: $td-color;
   }
 }
@@ -108,12 +108,12 @@
 
     &__table-th {
       font-size: 2rem;
-      line-height: 2.5rem;
+      line-height: 2rem;
     }
 
     &__table-td {
       font-size: 1.5rem;
-      line-height: 2rem;
+      line-height: 1.5rem;
     }
   }
 }
@@ -139,17 +139,17 @@
 
     &__character-info {
       font-size: 2rem;
-      line-height: 2.5rem;
+      line-height: 2rem;
     }
 
     &__table-th {
       font-size: 2.5rem;
-      line-height: 3rem;
+      line-height: 2.5rem;
     }
 
     &__table-td {
       font-size: 2rem;
-      line-height: 2.5rem;
+      line-height: 2rem;
     }
   }
 }

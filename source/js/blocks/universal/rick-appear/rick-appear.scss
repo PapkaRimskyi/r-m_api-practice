@@ -1,0 +1,97 @@
+.rick-appear {
+  position: fixed;
+  top: 8%;
+  left: -1000%;
+  width: 100px;
+
+  &__img-container {
+    width: 50%;
+    transform: rotate(32deg);
+
+    & img {
+      width: 100%;
+    }
+  }
+
+  &__rick-monolog-container {
+    position: absolute;
+    left: 32%;
+    bottom: -14%;
+    width: 50%;
+  }
+
+  &__rick-monolog {
+    font-size: $default-font-size - 2px;
+    line-height: $default-line-height - 2px;
+    opacity: 0;
+    z-index: 10;
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .rick-appear {
+    top: 6%;
+    width: 200px;
+
+    &__img-container {
+      width: 40%;
+    }
+
+    &__rick-monolog-container {
+      left: 23%;
+      bottom: 10%;
+      width: 50%;
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .rick-appear {
+
+    &__img-container {
+      width: 50%;
+    }
+
+    &__rick-monolog-container {
+      left: 29%;
+      bottom: 14%;
+      width: 60%;
+    }
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .rick-appear {
+    top: -1%;
+    width: 220px;
+
+    &__img-container {
+      width: 70%;
+    }
+
+    &__rick-monolog-container {
+      left: 42%;
+      bottom: 13%;
+    }
+
+    &__rick-monolog {
+      font-size: 1.3rem;
+      line-height: 1.3rem;
+    }
+  }
+}
+
+@include media-breakpoint-up(xxl) {
+  .rick-appear {
+    top: -4%;
+
+    &__img-container {
+      width: 100%;
+    }
+
+    &__rick-monolog-container {
+      left: 58%;
+      bottom: 21%;
+    }
+  }
+}

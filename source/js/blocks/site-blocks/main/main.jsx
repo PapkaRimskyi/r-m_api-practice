@@ -7,6 +7,8 @@ import dataRequest from '../../../data-request/data-request';
 
 import { CHARACTERS_API, LOCATIONS_API, EPISODES_API } from '../../../variables';
 
+import RickAppear from '../../universal/rick-appear/rick-appear';
+
 export default function Main() {
   const [info, setInfo] = useState({ data: null, infoType: null });
 
@@ -37,6 +39,7 @@ export default function Main() {
     <main className="container main main--hidden">
       <LoadingOptions buttonHandler={loadInfo} />
       {info.data && <InfoSection info={info} dataRequest={dataRequest} setInfo={setInfo} />}
+      <RickAppear infoType={info.infoType} />
     </main>
   );
 }

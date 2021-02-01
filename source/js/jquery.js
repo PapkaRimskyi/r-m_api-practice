@@ -14,7 +14,7 @@ $(() => {
         .each((index, element) => {
           const timerID = setInterval(() => {
             clearInterval(timerID);
-            $(element).addClass('header__single-word--fade-in');
+            $(element).animate({ opacity: 1 });
             if (index === wordCollection.length - 1) {
               $('#root [class$=hidden]').each((_, elem) => {
                 $(elem).removeClass(`${Array.from(elem.classList).find((item) => item.includes('--hidden') && item)}`);
