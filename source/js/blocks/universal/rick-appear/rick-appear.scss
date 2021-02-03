@@ -1,6 +1,6 @@
 .rick-appear {
   position: fixed;
-  top: 8%;
+  top: 7%;
   left: -1000%;
   width: 100px;
 
@@ -47,6 +47,7 @@
 
 @include media-breakpoint-up(md) {
   .rick-appear {
+    top: 5%;
 
     &__img-container {
       width: 50%;
@@ -62,7 +63,7 @@
 
 @include media-breakpoint-up(lg) {
   .rick-appear {
-    top: -1%;
+    top: 0;
     width: 220px;
 
     &__img-container {

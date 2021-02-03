@@ -1,0 +1,72 @@
+.filter {
+  position: absolute;
+  top: 60px;
+  right: calc(50% - (260px / 2));
+  padding: 15px;
+  width: 260px;
+  background-color: $white-color;
+  transform: translateY(-1000px);
+  transition: transform 1s ease-in;
+
+  &::before,
+  &::after {
+    position: absolute;
+    content: "";
+    top: -11%;
+    width: 125px;
+    height: 20px;
+    transform: rotate(90deg);
+    background: url('../img/chain.png') no-repeat center center;
+    background-size: cover;
+  }
+
+  &::before {
+    left: 0;
+  }
+
+  &::after {
+    right: 0;
+  }
+
+  &__headline {
+    margin-bottom: 10px;
+    padding: 0 15px;
+    text-align: center;
+  }
+
+  &__fieldset {
+    display: flex;
+    flex-direction: column;
+
+    &:not(:last-of-type) {
+      margin-bottom: 20px;
+    }
+
+    &:last-of-type {
+      margin-bottom: 30px;
+    }
+  }
+
+  &__input-label {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    line-height: 1.2rem;
+  }
+
+  &__fieldset:nth-of-type(2n) &__input-label {
+    align-self: flex-end;
+  }
+
+
+  &__input {
+    padding: 5px 13px;
+    border-bottom: 1px solid $black-color;
+  }
+
+  &__confirm-filter {
+    margin: $margin-auto;
+    display: block;
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+  }
+}

@@ -13,7 +13,8 @@ export default function Pagination({ info, page, pageHandler }) {
   function definePages(pageCount, currentPage) {
     const pageCollection = [];
     if (currentPage === 1) {
-      for (let i = 1; i < MAX_PAGE; i += 1) {
+      const countIteraction = MAX_PAGE > pageCount ? pageCount : MAX_PAGE;
+      for (let i = 1; i < countIteraction; i += 1) {
         pageCollection.push(<PageItem key={i} number={i} currentPage={currentPage} />);
       }
       pageCollection.push(<PageItem key={pageCount} number={pageCount} currentPage={currentPage} />);
@@ -26,7 +27,9 @@ export default function Pagination({ info, page, pageHandler }) {
       }
       pageCollection.push(<PageItem key={pageCount} number={pageCount} currentPage={currentPage} />);
     } else {
-      pageCollection.push(<PageItem key={1} number={1} currentPage={currentPage} />);
+      if (MAX_PAGE < pageCount) {
+        pageCollection.push(<PageItem key={1} number={1} currentPage={currentPage} />);
+      }
       for (let i = currentPage - 2; i <= currentPage; i += 1) {
         pageCollection.push(<PageItem key={i} number={i} currentPage={currentPage} />);
       }
@@ -40,7 +43,7 @@ export default function Pagination({ info, page, pageHandler }) {
     <section className="pagination">
       <h2 className="visually-hidden">Pagination</h2>
       <ul className="row align-items-center pagination__list" onClick={pageHandler}>
-        {definePages(info.pages, page, pageHandler).map((pageComponent) => pageComponent)}
+        {info.pages > 1 && definePages(info.pages, page, pageHandler).map((pageComponent) => pageComponent)}
       </ul>
     </section>
   );

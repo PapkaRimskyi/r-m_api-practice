@@ -11,3 +11,9 @@ export const EPISODES_API = 'https://rickandmortyapi.com/api/episode';
 export const MAX_PAGE = 4;
 
 //
+
+// Задержка для анимации
+
+export const ANIMATION_DELAY = 60000;
+
+//

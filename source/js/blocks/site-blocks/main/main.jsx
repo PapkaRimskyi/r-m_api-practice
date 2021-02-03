@@ -38,8 +38,8 @@ export default function Main() {
   return (
     <main className="container main main--hidden">
       <LoadingOptions buttonHandler={loadInfo} />
-      {info.data && <InfoSection info={info} dataRequest={dataRequest} setInfo={setInfo} />}
       <RickAppear infoType={info.infoType} />
+      {info.data && <InfoSection info={info} dataRequest={dataRequest} setInfo={setInfo} />}
     </main>
   );
 }

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Rope from '../../universal/rope/rope';
+
 export default function Header() {
   return (
     <header className="container header">
@@ -8,6 +10,7 @@ export default function Header() {
         <span className="header__single-word">and</span>&ensp;
         <span className="header__single-word">Morty</span>
       </h1>
+      <Rope />
     </header>
   );
 }

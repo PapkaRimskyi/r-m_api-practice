@@ -1,0 +1,31 @@
+.rope {
+  position: absolute;
+  top: -35%;
+  right: 5%;
+
+  &__button-rope {
+    width: 8px;
+    height: 50px;
+    background: url('../img/rope.png') no-repeat center center;
+    background-size: cover;
+    border-bottom-left-radius: 25%;
+    border-bottom-right-radius: 25%;
+
+    &:hover {
+      transform: translateY(10%);
+      transition: transform .8s;
+    }
+
+    &:focus {
+      animation: rope-animation .4s ease-in-out alternate infinite;
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .rope {
+    &__button-rope {
+      height: 70px;
+    }
+  }
+}

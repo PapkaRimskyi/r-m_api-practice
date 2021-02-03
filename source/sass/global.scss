@@ -62,6 +62,20 @@ figure {
   padding: 0;
 }
 
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+input {
+  border: none;
+  font: {
+    family: inherit;
+    size: inherit;
+  }
+}
+
 button {
   padding: 0;
   font: {

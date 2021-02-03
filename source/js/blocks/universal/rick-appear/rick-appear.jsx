@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import getRandomNumber from '../../../utils/get-random-number';
 
+import { ANIMATION_DELAY } from '../../../variables';
 import monologData from './monolog-data/monolog-data';
 
 import '../../../../img/load-info-delay.png';
@@ -34,7 +35,7 @@ export default function RickAppear({ infoType }) {
         .animate({ left: '-5.5%' }, 1000, () => $(rickAppearRef.current).find('div p').text(randomMonolog).animate({ opacity: 1 }, 400))
         .delay(2000)
         .animate({ left: '-1000%' }, 1000, () => $(rickAppearRef.current).find('div p').css({ opacity: 0 }));
-    }, 15000));
+    }, ANIMATION_DELAY));
   }
 
   //
