@@ -2,16 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import CharactersTemplate from './characters-template/characters-template';
-import LocationsTemplate from './locations-template/locations-template';
-import EpisodesTemplate from './episodes-template/episodes-template';
+import TableTemplate from './table-template/table-template';
 import Pagination from '../../../universal/pagination/pagination';
 
 import scrollToElement from '../../../../utils/scroll-to-element';
 
 import mainApiPath from '../../../../data-request/main-api-path';
 
-export default function InfoSection({ info, dataRequest, setInfo }) {
-  const { data, infoType } = info;
+export default function InfoSection({ data, dataRequest, setInfo }) {
+  const { serverData, infoType } = data;
   const [page, setPage] = useState(1);
   const infoSection = useRef(null);
 
@@ -25,14 +24,14 @@ export default function InfoSection({ info, dataRequest, setInfo }) {
 
   // Определяет шаблон разметки, который стоит использовать.
 
-  function defineTemplate(renderData, type) {
-    switch (type) {
+  function defineTemplate() {
+    const { results } = serverData;
+    switch (infoType) {
       case 'character':
-        return <CharactersTemplate data={renderData} />;
+        return <CharactersTemplate data={results} />;
       case 'location':
-        return <LocationsTemplate data={renderData} />;
       case 'episode':
-        return <EpisodesTemplate data={renderData} />;
+        return <TableTemplate data={results} infoType={infoType} />;
       default:
         return null;
     }
@@ -56,39 +55,32 @@ export default function InfoSection({ info, dataRequest, setInfo }) {
   return (
     <section ref={infoSection} className="info-section">
       <h2 className="visually-hidden">Received information</h2>
-      <p className="info-section__total-info">Total {infoType}: {data.info.count}</p>
-      {defineTemplate(data, infoType)}
-      <Pagination info={data.info} page={page} pageHandler={pageHandler} />
+      <p className="info-section__total-info">Total {infoType}: {serverData.info.count}</p>
+      {defineTemplate()}
+      <Pagination info={serverData.info} page={page} pageHandler={pageHandler} />
     </section>
   );
 }
 
 InfoSection.propTypes = {
-  info: PropTypes.shape({
-    data: PropTypes.shape({
+  data: PropTypes.shape({
+    serverData: PropTypes.shape({
       info: PropTypes.shape({
         count: PropTypes.number,
-        next: PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.number,
-        ]),
         pages: PropTypes.number,
-        prev: PropTypes.oneOfType([
-          PropTypes.string,
+        next: PropTypes.oneOfType([
           PropTypes.number,
+          PropTypes.string,
+        ]),
+        prev: PropTypes.oneOfType([
+          PropTypes.number,
+          PropTypes.string,
         ]),
       }),
       results: PropTypes.arrayOf(PropTypes.object),
     }),
     infoType: PropTypes.string,
-  }),
+  }).isRequired,
   dataRequest: PropTypes.func.isRequired,
   setInfo: PropTypes.func.isRequired,
-};
-
-InfoSection.defaultProps = {
-  info: PropTypes.shape({
-    data: null,
-    infoType: null,
-  }),
 };

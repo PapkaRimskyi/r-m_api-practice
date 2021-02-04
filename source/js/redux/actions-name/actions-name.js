@@ -1,0 +1,3 @@
+export const SET_INFO_TYPE = 'SET_INFO_TYPE';
+
+export const SET_RECEIVED_DATA = 'SET_RECEIVED_DATA';

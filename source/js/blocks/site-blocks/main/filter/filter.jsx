@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import $ from 'jquery';
 
 import '../../../../../img/chain.png';
@@ -38,3 +39,15 @@ export default function Filter({ filterRef }) {
     </section>
   );
 }
+
+Filter.propTypes = {
+  filterRef: PropTypes.shape({
+    current: PropTypes.node,
+  }),
+};
+
+Filter.defaultProps = {
+  filterRef: PropTypes.shape({
+    current: undefined,
+  }),
+};

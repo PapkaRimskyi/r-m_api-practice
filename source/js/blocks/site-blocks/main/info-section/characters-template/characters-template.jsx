@@ -4,11 +4,10 @@ import PropTypes from 'prop-types';
 import getSpecialIcon from '../../../../../utils/get-special-icon';
 
 export default function CharactersTemplate({ data }) {
-  const { results } = data;
   return (
     <ul className="row row-cols-1 row-cols-md-2 gy-5 info-section__characters-list">
       {
-        results.map(({ id, image, name, gender, species, status }) => (
+        data.map(({ id, image, name, gender, species, status }) => (
           <li className="info-section__character" key={id}>
             <figure className="info-section__character-photo">
               <img src={`${image}`} alt="Character face" />
@@ -39,19 +38,5 @@ export default function CharactersTemplate({ data }) {
 }
 
 CharactersTemplate.propTypes = {
-  data: PropTypes.shape({
-    info: PropTypes.shape({
-      count: PropTypes.number,
-      next: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-      ]),
-      pages: PropTypes.number,
-      prev: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-      ]),
-    }),
-    results: PropTypes.arrayOf(PropTypes.object),
-  }).isRequired,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

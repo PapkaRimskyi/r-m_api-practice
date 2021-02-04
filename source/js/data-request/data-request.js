@@ -4,7 +4,7 @@ export default function dataRequest(apiLink, setInfo, infoName) {
   fetch(`${apiLink}`)
     .then((response) => response.json())
     .then((data) => {
-      setInfo({ data, infoType: infoName });
+      setInfo({ serverData: data, infoType: infoName });
     });
 }
 

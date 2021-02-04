@@ -12,8 +12,8 @@
   &::after {
     position: absolute;
     content: "";
-    top: -11%;
-    width: 125px;
+    top: -9.9%;
+    width: 80px;
     height: 20px;
     transform: rotate(90deg);
     background: url('../img/chain.png') no-repeat center center;
@@ -51,6 +51,12 @@
     margin-bottom: 10px;
     font-size: 1.2rem;
     line-height: 1.2rem;
+    transition: opacity .5s;
+    cursor: pointer;
+
+    &:hover {
+      opacity: .5;
+    }
   }
 
   &__fieldset:nth-of-type(2n) &__input-label {
@@ -68,5 +74,14 @@
     display: block;
     font-size: 1.5rem;
     line-height: 1.5rem;
+    transition: letter-spacing .5s;
+
+    &:hover {
+      letter-spacing: 1.2px;
+    }
+
+    &:active {
+      letter-spacing: 3.5px;
+    }
   }
 }
