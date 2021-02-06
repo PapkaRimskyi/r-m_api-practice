@@ -7,6 +7,7 @@
   background-color: $white-color;
   transform: translateY(-1000px);
   transition: transform 1s ease-in;
+  z-index: 1000;
 
   &::before,
   &::after {

@@ -7,17 +7,17 @@ import Pagination from '../../../universal/pagination/pagination';
 
 import scrollToElement from '../../../../utils/scroll-to-element';
 
-import mainApiPath from '../../../../data-request/main-api-path';
-
-export default function InfoSection({ data, dataRequest, setInfo }) {
-  const { serverData, infoType } = data;
+export default function InfoSection({ infoType, prevInfoType, data, getData }) {
+  const { info, results } = data;
   const [page, setPage] = useState(1);
   const infoSection = useRef(null);
 
   // Сброс значения страницы, если пользователь загрузил другой тип данных.
 
   useEffect(() => {
-    setPage(1);
+    if (prevInfoType !== infoType) {
+      setPage(1);
+    }
   }, [infoType]);
 
   //
@@ -25,7 +25,6 @@ export default function InfoSection({ data, dataRequest, setInfo }) {
   // Определяет шаблон разметки, который стоит использовать.
 
   function defineTemplate() {
-    const { results } = serverData;
     switch (infoType) {
       case 'character':
         return <CharactersTemplate data={results} />;
@@ -44,7 +43,7 @@ export default function InfoSection({ data, dataRequest, setInfo }) {
   function pageHandler(e) {
     e.preventDefault();
     if (e.target.tagName === 'BUTTON') {
-      dataRequest(`${mainApiPath}${infoType}?page=${e.target.textContent}`, setInfo, infoType);
+      getData(`${infoType}?page=${e.target.textContent}`);
       scrollToElement(infoSection.current);
       setPage(+e.target.textContent);
     }
@@ -55,32 +54,34 @@ export default function InfoSection({ data, dataRequest, setInfo }) {
   return (
     <section ref={infoSection} className="info-section">
       <h2 className="visually-hidden">Received information</h2>
-      <p className="info-section__total-info">Total {infoType}: {serverData.info.count}</p>
+      <p className="info-section__total-info">Total {infoType}: {info.count}</p>
       {defineTemplate()}
-      <Pagination info={serverData.info} page={page} pageHandler={pageHandler} />
+      <Pagination info={info} page={page} pageHandler={pageHandler} />
     </section>
   );
 }
 
 InfoSection.propTypes = {
+  infoType: PropTypes.string.isRequired,
+  prevInfoType: PropTypes.string,
   data: PropTypes.shape({
-    serverData: PropTypes.shape({
-      info: PropTypes.shape({
-        count: PropTypes.number,
-        pages: PropTypes.number,
-        next: PropTypes.oneOfType([
-          PropTypes.number,
-          PropTypes.string,
-        ]),
-        prev: PropTypes.oneOfType([
-          PropTypes.number,
-          PropTypes.string,
-        ]),
-      }),
-      results: PropTypes.arrayOf(PropTypes.object),
+    info: PropTypes.shape({
+      count: PropTypes.number,
+      pages: PropTypes.number,
+      next: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+      ]),
+      prev: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+      ]),
     }),
-    infoType: PropTypes.string,
+    results: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
-  dataRequest: PropTypes.func.isRequired,
-  setInfo: PropTypes.func.isRequired,
+  getData: PropTypes.func.isRequired,
+};
+
+InfoSection.defaultProps = {
+  prevInfoType: undefined,
 };

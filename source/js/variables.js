@@ -1,3 +1,9 @@
+// Дефолтный API путь
+
+export const mainApiPath = 'https://rickandmortyapi.com/api/';
+
+//
+
 // API ссылки
 
 export const CHARACTERS_API = 'https://rickandmortyapi.com/api/character';

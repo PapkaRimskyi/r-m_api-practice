@@ -2,8 +2,9 @@
 import React, { useRef } from 'react';
 import ReactDOM from 'react-dom';
 
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 
 import reducer from './redux/reducers/main-reducer';
 
@@ -17,7 +18,7 @@ import Main from './blocks/site-blocks/main/main';
 import Footer from './blocks/site-blocks/footer/footer';
 
 const root = document.getElementById('root');
-const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(reducer, compose(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
 
 function Index() {
   // Реф используется для монтирования фильтра в main с помощью портала.

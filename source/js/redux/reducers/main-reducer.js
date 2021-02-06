@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
 import setInfoType from './info-type/info-type';
-import setReceivedData from './received-data/received-data';
+import dataRequest from './data-request/data-request';
 
 export default combineReducers(
   {
     infoType: setInfoType,
-    receivedData: setReceivedData,
+    postData: dataRequest,
   },
 );

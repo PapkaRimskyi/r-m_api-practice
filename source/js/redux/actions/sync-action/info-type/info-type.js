@@ -1,4 +1,4 @@
-import { SET_INFO_TYPE } from '../../actions-name/actions-name';
+import { SET_INFO_TYPE } from '../../../actions-name/actions-name';
 
 export default function setInfoType(infoType) {
   return {
