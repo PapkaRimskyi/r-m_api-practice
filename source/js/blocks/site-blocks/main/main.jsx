@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+/* eslint-disable no-nested-ternary */
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
@@ -9,50 +10,35 @@ import LoadingOptions from './loading-options/loading-options';
 import InfoSection from './info-section/info-section';
 import RickAppear from '../../universal/rick-appear/rick-appear';
 
-import usePrevious from '../../../custom-hooks/use-previous';
+import LoadStatus from '../../universal/load-status/load-status';
 
-// import { CHARACTERS_API, LOCATIONS_API, EPISODES_API } from '../../../variables';
+function Main({ infoType, changeInfoType, postData, getData }) {
+  // Стейт pushedLoadButton будет обновляться при каждом клике на любую из 3 кнопок загрузки данных, потому что значением стейта всегда будет являтся новый объект.
+  // Таким образом, если пользователь загрузил данные раздела 'Characters' и решил опять нажать на эту же кнопку, то произойдёт сброс пагинации до 1.
 
-function Main({ mainRef, infoType, changeInfoType, postData, getData }) {
-  const prevInfoType = usePrevious(infoType);
-  const { data } = postData;
-
-  useEffect(() => {
-    if (infoType && infoType !== prevInfoType) {
-      getData(infoType);
-    }
-  }, [infoType]);
-
-  // Делегирование. Запускаю экшн, который принимает id нажатой кнопки.
-
-  function loadInfo(e) {
-    e.preventDefault();
-    changeInfoType(e.target.id);
-  }
+  const [pushedLoadButton, setPushedLoadButton] = useState({});
 
   //
 
-  // Реагирует на статусы fetch'а.
+  // Делегирование. Запускаю экшн, который принимает id нажатой кнопки и отправляет запрос на сервер.
 
-  function getInfoSection() {
-    const { requested, err } = postData;
-    if (requested) {
-      return <div>Загрузка...</div>;
-    } if (err) {
-      return <div>Ошибка!</div>;
-    } if (prevInfoType === infoType) {
-      return data && Object.prototype.hasOwnProperty.call(data, 'results') && <InfoSection infoType={infoType} prevInfoType={prevInfoType} data={data} getData={getData} />;
+  function loadInfo(e) {
+    e.preventDefault();
+    if (e.target.tagName === 'BUTTON') {
+      setPushedLoadButton({ button: e.target.id });
+      changeInfoType(e.target.id);
+      getData(e.target.id);
     }
-    return null;
   }
 
   //
 
   return (
-    <main ref={mainRef} className="container main main--hidden">
-      <LoadingOptions buttonHandler={loadInfo} />
+    <main className="container main main--hidden">
+      <LoadingOptions buttonHandler={loadInfo} requested={postData.requested} />
       <RickAppear infoType={infoType} />
-      {getInfoSection()}
+      {postData.requested ? <LoadStatus status="requested" /> : postData.err ? <LoadStatus status="error" /> : null}
+      <InfoSection infoType={infoType} postData={postData} getData={getData} pushedLoadButton={pushedLoadButton} />
     </main>
   );
 }

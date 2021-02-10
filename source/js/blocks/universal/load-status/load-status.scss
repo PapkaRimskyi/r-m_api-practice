@@ -1,0 +1,18 @@
+.load-status {
+  position: fixed;
+  bottom: 4%;
+  left: calc(50% - (300px / 2));
+  width: 300px;
+  text-align: center;
+  z-index: 100;
+
+  & img {
+    width: 20%;
+  }
+
+  &--error {
+    & img {
+      width: 30%;
+    }
+  }
+}

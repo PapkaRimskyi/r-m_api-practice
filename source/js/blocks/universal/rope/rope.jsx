@@ -9,7 +9,7 @@ import Filter from '../../site-blocks/main/filter/filter';
 
 import '../../../../img/rope.png';
 
-function Rope({ mainRef, infoType }) {
+function Rope({ headerRef, infoType }) {
   const [filterStatus, setFilterStatus] = useState(false);
   const filterRef = useRef();
 
@@ -36,7 +36,7 @@ function Rope({ mainRef, infoType }) {
       <div className="rope">
         <button className="rope__button-rope" type="button" aria-label="Rope for filter" title={!infoType ? 'Choose section firstly' : null} onClick={ropeHandler} />
       </div>
-      {filterStatus && ReactDOM.createPortal(<Filter filterRef={filterRef} infoType={infoType} />, mainRef.current)}
+      {filterStatus && ReactDOM.createPortal(<Filter filterRef={filterRef} infoType={infoType} />, headerRef.current)}
     </>
   );
 }

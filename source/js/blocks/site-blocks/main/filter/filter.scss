@@ -1,8 +1,7 @@
 .filter {
   position: absolute;
-  top: 60px;
+  top: 50%;
   right: calc(50% - (260px / 2));
-  padding: 15px;
   width: 260px;
   background-color: $white-color;
   transform: translateY(-1000px);
@@ -13,12 +12,13 @@
   &::after {
     position: absolute;
     content: "";
-    top: -9.9%;
+    bottom: 104%;
     width: 80px;
     height: 20px;
     transform: rotate(90deg);
     background: url('../img/chain.png') no-repeat center center;
     background-size: cover;
+    z-index: -1;
   }
 
   &::before {
@@ -27,6 +27,12 @@
 
   &::after {
     right: 0;
+  }
+
+  &__container {
+    padding: 15px;
+    background-color: $white-color;
+    z-index: 100;
   }
 
   &__headline {

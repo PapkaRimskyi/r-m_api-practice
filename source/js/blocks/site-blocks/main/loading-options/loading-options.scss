@@ -25,5 +25,10 @@
     &:active {
       animation: size-to-small forwards .5s 1;
     }
+
+    &:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
   }
 }
