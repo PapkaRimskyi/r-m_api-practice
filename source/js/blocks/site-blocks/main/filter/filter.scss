@@ -90,5 +90,10 @@
     &:active {
       letter-spacing: 3.5px;
     }
+
+    &:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
   }
 }

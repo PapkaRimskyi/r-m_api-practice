@@ -7,15 +7,20 @@ import classNames from 'classnames';
 import Requested from './requested/requested';
 import Error from './error/error';
 
-export default function LoadStatus({ status }) {
+export default function LoadStatus({ status, errMessage }) {
   return (
     <section className={`load-status load-status${classNames(status === 'requested' ? '--requested' : '--error')}`}>
       <h2 className="visually-hidden">Simple notification</h2>
-      {status === 'requested' ? <Requested /> : <Error />}
+      {status === 'requested' ? <Requested /> : <Error errMessage={errMessage} />}
     </section>
   );
 }
 
 LoadStatus.propTypes = {
   status: PropTypes.string.isRequired,
+  errMessage: PropTypes.string,
+};
+
+LoadStatus.defaultProps = {
+  errMessage: null,
 };

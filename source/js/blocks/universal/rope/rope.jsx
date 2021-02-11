@@ -9,7 +9,7 @@ import Filter from '../../site-blocks/main/filter/filter';
 
 import '../../../../img/rope.png';
 
-function Rope({ headerRef, infoType }) {
+function Rope({ headerRef, infoType, requested }) {
   const [filterStatus, setFilterStatus] = useState(false);
   const filterRef = useRef();
 
@@ -36,13 +36,14 @@ function Rope({ headerRef, infoType }) {
       <div className="rope">
         <button className="rope__button-rope" type="button" aria-label="Rope for filter" title={!infoType ? 'Choose section firstly' : null} onClick={ropeHandler} />
       </div>
-      {filterStatus && ReactDOM.createPortal(<Filter filterRef={filterRef} infoType={infoType} />, headerRef.current)}
+      {filterStatus && ReactDOM.createPortal(<Filter filterRef={filterRef} infoType={infoType} requested={requested} />, headerRef.current)}
     </>
   );
 }
 
 Rope.propTypes = {
   infoType: PropTypes.string,
+  requested: PropTypes.bool.isRequired,
 };
 
 Rope.defaultProps = {
@@ -52,6 +53,7 @@ Rope.defaultProps = {
 function mapStateToProps(state) {
   return {
     infoType: state.infoType,
+    requested: state.postData.requested,
   };
 }
 

@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import setInfoType from '../../../redux/actions/sync-action/info-type/info-type';
 import dataRequest from '../../../redux/actions/thunk-action-generations/request-data';
 
 import LoadingOptions from './loading-options/loading-options';
@@ -12,7 +11,7 @@ import RickAppear from '../../universal/rick-appear/rick-appear';
 
 import LoadStatus from '../../universal/load-status/load-status';
 
-function Main({ infoType, changeInfoType, postData, getData }) {
+function Main({ infoType, postData, getData }) {
   // Стейт pushedLoadButton будет обновляться при каждом клике на любую из 3 кнопок загрузки данных, потому что значением стейта всегда будет являтся новый объект.
   // Таким образом, если пользователь загрузил данные раздела 'Characters' и решил опять нажать на эту же кнопку, то произойдёт сброс пагинации до 1.
 
@@ -26,7 +25,6 @@ function Main({ infoType, changeInfoType, postData, getData }) {
     e.preventDefault();
     if (e.target.tagName === 'BUTTON') {
       setPushedLoadButton({ button: e.target.id });
-      changeInfoType(e.target.id);
       getData(e.target.id);
     }
   }
@@ -37,7 +35,7 @@ function Main({ infoType, changeInfoType, postData, getData }) {
     <main className="container main main--hidden">
       <LoadingOptions buttonHandler={loadInfo} requested={postData.requested} />
       <RickAppear infoType={infoType} />
-      {postData.requested ? <LoadStatus status="requested" /> : postData.err ? <LoadStatus status="error" /> : null}
+      {postData.requested ? <LoadStatus status="requested" /> : postData.err ? <LoadStatus status="error" errMessage={postData.err} /> : null}
       <InfoSection infoType={infoType} postData={postData} getData={getData} pushedLoadButton={pushedLoadButton} />
     </main>
   );
@@ -45,7 +43,6 @@ function Main({ infoType, changeInfoType, postData, getData }) {
 
 Main.propTypes = {
   infoType: PropTypes.string,
-  changeInfoType: PropTypes.func.isRequired,
   postData: PropTypes.shape({
     data: PropTypes.shape({
       info: PropTypes.shape({
@@ -81,7 +78,6 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  changeInfoType: setInfoType,
   getData: dataRequest,
 };
 

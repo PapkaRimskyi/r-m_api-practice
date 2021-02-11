@@ -7,7 +7,7 @@ import templateData from './template-data/template-data';
 
 import '../../../../../img/chain.png';
 
-export default function Filter({ filterRef, infoType }) {
+export default function Filter({ filterRef, infoType, requested }) {
   useEffect(() => {
     $(filterRef.current).css({ transform: 'translateY(0)' });
   }, []);
@@ -23,7 +23,7 @@ export default function Filter({ filterRef, infoType }) {
               <input id={input.toLowerCase()} type="text" className="filter__input" placeholder={templateData[infoType].placeholders[index]} />
             </fieldset>
           ))}
-          <button className="filter__confirm-filter" type="button">Accept</button>
+          <button className="filter__confirm-filter" type="button" disabled={requested}>Accept</button>
         </form>
       </div>
     </section>
@@ -32,4 +32,5 @@ export default function Filter({ filterRef, infoType }) {
 
 Filter.propTypes = {
   infoType: PropTypes.string.isRequired,
+  requested: PropTypes.bool.isRequired,
 };
