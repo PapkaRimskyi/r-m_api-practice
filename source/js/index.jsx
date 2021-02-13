@@ -2,9 +2,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import reducer from './redux/reducers/main-reducer';
 
 import './jquery';
@@ -18,7 +19,7 @@ import Main from './blocks/site-blocks/main/main';
 import Footer from './blocks/site-blocks/footer/footer';
 
 const root = document.getElementById('root');
-const store = createStore(reducer, compose(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 
 function Index() {
   return (

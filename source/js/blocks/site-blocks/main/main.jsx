@@ -3,13 +3,15 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import dataRequest from '../../../redux/actions/thunk-action-generations/request-data';
+import requestData from '../../../redux/actions/thunk-action-generations/request-data';
 
 import LoadingOptions from './loading-options/loading-options';
 import InfoSection from './info-section/info-section';
 import RickAppear from '../../universal/rick-appear/rick-appear';
 
 import LoadStatus from '../../universal/load-status/load-status';
+
+import { CHARACTERS_API, EPISODES_API, LOCATIONS_API } from '../../../variables';
 
 function Main({ infoType, postData, getData }) {
   // Стейт pushedLoadButton будет обновляться при каждом клике на любую из 3 кнопок загрузки данных, потому что значением стейта всегда будет являтся новый объект.
@@ -19,13 +21,30 @@ function Main({ infoType, postData, getData }) {
 
   //
 
+  // Определения типы ссылки
+
+  function defineHrefForLoadingOptions(id) {
+    switch (id) {
+      case 'character':
+        return CHARACTERS_API;
+      case 'location':
+        return LOCATIONS_API;
+      case 'episode':
+        return EPISODES_API;
+      default:
+        return null;
+    }
+  }
+
+  //
+
   // Делегирование. Запускаю экшн, который принимает id нажатой кнопки и отправляет запрос на сервер.
 
   function loadInfo(e) {
     e.preventDefault();
     if (e.target.tagName === 'BUTTON') {
       setPushedLoadButton({ button: e.target.id });
-      getData(e.target.id);
+      getData(defineHrefForLoadingOptions(e.target.id), e.target.id, true);
     }
   }
 
@@ -35,7 +54,7 @@ function Main({ infoType, postData, getData }) {
     <main className="container main main--hidden">
       <LoadingOptions buttonHandler={loadInfo} requested={postData.requested} />
       <RickAppear infoType={infoType} />
-      {postData.requested ? <LoadStatus status="requested" /> : postData.err ? <LoadStatus status="error" errMessage={postData.err} /> : null}
+      {postData.requested ? <LoadStatus status="requested" /> : postData.err ? <LoadStatus status="error" /> : null}
       <InfoSection infoType={infoType} postData={postData} getData={getData} pushedLoadButton={pushedLoadButton} />
     </main>
   );
@@ -78,7 +97,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  getData: dataRequest,
+  getData: requestData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

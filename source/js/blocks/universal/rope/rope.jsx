@@ -36,7 +36,7 @@ function Rope({ headerRef, infoType, requested }) {
       <div className="rope">
         <button className="rope__button-rope" type="button" aria-label="Rope for filter" title={!infoType ? 'Choose section firstly' : null} onClick={ropeHandler} />
       </div>
-      {filterStatus && ReactDOM.createPortal(<Filter filterRef={filterRef} infoType={infoType} requested={requested} />, headerRef.current)}
+      {filterStatus && ReactDOM.createPortal(<Filter filterRef={filterRef} infoType={infoType} requested={requested} setFilterStatus={setFilterStatus} />, headerRef.current)}
     </>
   );
 }

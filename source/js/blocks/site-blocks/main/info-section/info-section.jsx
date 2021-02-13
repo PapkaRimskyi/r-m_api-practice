@@ -16,16 +16,26 @@ export default function InfoSection({ infoType, postData, getData, pushedLoadBut
   // Если появятся новые данные (postData), колбэк создаст новую версию разметки.
 
   const infoSectionMarkup = useCallback(() => {
-    if (postData.data && Object.prototype.hasOwnProperty.call(postData.data, 'results')) {
-      const { results, info } = postData.data;
-      return (
-        <>
-          <h2 className="visually-hidden">Received information</h2>
-          <p className="info-section__total-info">Total {`${infoType}s`}: {info.count}</p>
-          {defineTemplate(results)}
-          <Pagination info={info} page={page} pageHandler={pageHandler} />
-        </>
-      );
+    if (postData.data) {
+      if (Object.prototype.hasOwnProperty.call(postData.data, 'results')) {
+        const { results, info } = postData.data;
+        return (
+          <>
+            <h2 className="visually-hidden">Received information</h2>
+            <p className="info-section__total-info">Total {`${infoType}s`}: {info.count}</p>
+            {defineTemplate(results)}
+            <Pagination info={info} page={page} pageHandler={pageHandler} />
+          </>
+        );
+      } if (Object.prototype.hasOwnProperty.call(postData.data, 'error')) {
+        const { error } = postData.data;
+        return (
+          <>
+            <h2 className="visually-hidden">Received information</h2>
+            <p className="info-section__total-info" style={{ position: 'relative', fontSize: '24px', lineHeight: '30px', textAlign: 'center' }}>{`${error} because nothing was found`}</p>
+          </>
+        );
+      }
     }
     return null;
   }, [postData.data]);
@@ -65,8 +75,8 @@ export default function InfoSection({ infoType, postData, getData, pushedLoadBut
 
   function pageHandler(e) {
     e.preventDefault();
-    if (e.target.tagName === 'BUTTON') {
-      getData(`${infoType}?page=${e.target.textContent}`);
+    if (e.target.tagName === 'A' && page !== +e.target.textContent) {
+      getData(e.target.href, infoType, false);
       scrollToElement(infoSection.current);
       setPage(+e.target.textContent);
     }
@@ -85,6 +95,7 @@ InfoSection.propTypes = {
   infoType: PropTypes.string,
   postData: PropTypes.shape({
     data: PropTypes.shape({
+      error: PropTypes.string,
       info: PropTypes.shape({
         count: PropTypes.number,
         pages: PropTypes.number,

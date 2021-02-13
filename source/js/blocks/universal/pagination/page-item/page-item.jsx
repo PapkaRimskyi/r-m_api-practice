@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
 
-export default function PageItem({ number, currentPage }) {
+export default function PageItem({ link, number, currentPage }) {
   return (
     <li className="col pagination__item">
-      <button className={classNames('pagination__button', currentPage === number ? ' pagination__button--active' : null)} type="button" disabled={currentPage === number}>{number}</button>
+      <a href={link} className={classNames('pagination__link', currentPage === number ? ' pagination__link--active' : null)}>{number}</a>
     </li>
   );
 }
 
 PageItem.propTypes = {
+  link: PropTypes.string,
   number: PropTypes.number.isRequired,
   currentPage: PropTypes.number.isRequired,
 };

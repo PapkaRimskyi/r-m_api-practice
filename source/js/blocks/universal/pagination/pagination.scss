@@ -3,19 +3,17 @@
   bottom: 0;
   right: 0;
 
-  &__button {
+  &__link {
     font-size: 1.2rem;
     line-height: 1.2rem;
+    color: $black-color;
     transition: color, scale, .3s ease-in;
 
     &--active {
       font-size: 1.7rem;
       line-height: 1.7rem;
+      opacity: .5;
       cursor: not-allowed;
-
-      &:disabled {
-        opacity: .5;
-      }
     }
 
     &:hover,
