@@ -1,11 +1,9 @@
 .filter {
   position: absolute;
-  top: 50%;
-  right: calc(50% - (260px / 2));
-  width: 260px;
+  top: -2000%;
+  right: calc(50% - (16.5rem / 2));
+  width: 16.5rem;
   background-color: $white-color;
-  transform: translateY(-1000px);
-  transition: transform 1s ease-in;
   z-index: 1000;
 
   &::before,
@@ -32,7 +30,6 @@
   &__container {
     padding: 15px;
     background-color: $white-color;
-    z-index: 100;
   }
 
   &__headline {
@@ -58,7 +55,7 @@
     margin-bottom: 10px;
     font-size: 1.2rem;
     line-height: 1.2rem;
-    transition: opacity .5s;
+    transition: opacity $transition-duration;
     cursor: pointer;
 
     &:hover {
@@ -66,14 +63,22 @@
     }
   }
 
+  &__fieldset:nth-of-type(1n) &__input-label {
+    align-self: flex-start;
+  }
+
   &__fieldset:nth-of-type(2n) &__input-label {
     align-self: flex-end;
   }
 
-
   &__input {
     padding: 5px 13px;
     border-bottom: 1px solid $black-color;
+    transition: background-color $transition-duration;
+  }
+
+  &__input-label:hover + &__input {
+    background-color: $yellow-color;
   }
 
   &__confirm-filter {
@@ -81,7 +86,7 @@
     display: block;
     font-size: 1.5rem;
     line-height: 1.5rem;
-    transition: letter-spacing .5s;
+    transition: letter-spacing $transition-duration;
 
     &:hover {
       letter-spacing: 1.2px;
@@ -93,7 +98,6 @@
 
     &:disabled {
       opacity: .5;
-      cursor: not-allowed;
     }
   }
 }

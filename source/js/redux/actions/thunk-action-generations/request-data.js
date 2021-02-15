@@ -1,4 +1,3 @@
-import { mainApiPath } from '../../../variables';
 import { dataRequestSended, dataReceived, dataNotReceived, throwOffErrMessage } from '../sync-action/data-request/data-request';
 import setInfoType from '../sync-action/info-type/info-type';
 

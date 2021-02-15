@@ -10,13 +10,13 @@ import reducer from './redux/reducers/main-reducer';
 
 import './jquery';
 
-import '../sass/style.scss';
-import '../img/gif/portal-gif.gif';
-import '../img/main-background-img.jpg';
-
 import Header from './blocks/site-blocks/header/header';
 import Main from './blocks/site-blocks/main/main';
 import Footer from './blocks/site-blocks/footer/footer';
+
+import '../sass/style.scss';
+import '../img/gif/portal-gif.gif';
+import '../img/main-background-img.jpg';
 
 const root = document.getElementById('root');
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));

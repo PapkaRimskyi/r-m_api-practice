@@ -11,8 +11,6 @@ import RickAppear from '../../universal/rick-appear/rick-appear';
 
 import LoadStatus from '../../universal/load-status/load-status';
 
-import { CHARACTERS_API, EPISODES_API, LOCATIONS_API } from '../../../variables';
-
 function Main({ infoType, postData, getData }) {
   // Стейт pushedLoadButton будет обновляться при каждом клике на любую из 3 кнопок загрузки данных, потому что значением стейта всегда будет являтся новый объект.
   // Таким образом, если пользователь загрузил данные раздела 'Characters' и решил опять нажать на эту же кнопку, то произойдёт сброс пагинации до 1.
@@ -21,41 +19,12 @@ function Main({ infoType, postData, getData }) {
 
   //
 
-  // Определения типы ссылки
-
-  function defineHrefForLoadingOptions(id) {
-    switch (id) {
-      case 'character':
-        return CHARACTERS_API;
-      case 'location':
-        return LOCATIONS_API;
-      case 'episode':
-        return EPISODES_API;
-      default:
-        return null;
-    }
-  }
-
-  //
-
-  // Делегирование. Запускаю экшн, который принимает id нажатой кнопки и отправляет запрос на сервер.
-
-  function loadInfo(e) {
-    e.preventDefault();
-    if (e.target.tagName === 'BUTTON') {
-      setPushedLoadButton({ button: e.target.id });
-      getData(defineHrefForLoadingOptions(e.target.id), e.target.id, true);
-    }
-  }
-
-  //
-
   return (
     <main className="container main main--hidden">
-      <LoadingOptions buttonHandler={loadInfo} requested={postData.requested} />
+      <LoadingOptions setPushedLoadButton={setPushedLoadButton} requested={postData.requested} getData={getData} />
       <RickAppear infoType={infoType} />
-      {postData.requested ? <LoadStatus status="requested" /> : postData.err ? <LoadStatus status="error" /> : null}
       <InfoSection infoType={infoType} postData={postData} getData={getData} pushedLoadButton={pushedLoadButton} />
+      {postData.requested ? <LoadStatus status="requested" /> : postData.err ? <LoadStatus status="error" /> : null}
     </main>
   );
 }

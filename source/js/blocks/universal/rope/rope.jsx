@@ -1,18 +1,11 @@
-import React, { useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
-import { connect } from 'react-redux';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import $ from 'jquery';
 
-import Filter from '../../site-blocks/main/filter/filter';
-
 import '../../../../img/rope.png';
 
-function Rope({ headerRef, infoType, requested }) {
-  const [filterStatus, setFilterStatus] = useState(false);
-  const filterRef = useRef();
-
+export default function Rope({ infoType, filterStatus, setFilterStatus, filterRef }) {
   // Обработчик для вызова фильтра. Для удаления класса не стал использовать jquery вариант, потому что при пустом массиве он удаляет дефолтный класс.
 
   function ropeHandler(e) {
@@ -23,8 +16,7 @@ function Rope({ headerRef, infoType, requested }) {
       if (!filterStatus) {
         setFilterStatus(!filterStatus);
       } else {
-        $(filterRef.current).css({ transform: 'translateY(-1000px)' });
-        setTimeout(() => setFilterStatus(!filterStatus), 1000);
+        $(filterRef.current).animate({ top: '-2000%' }, 300, () => setFilterStatus(!filterStatus));
       }
     }
   }
@@ -32,29 +24,18 @@ function Rope({ headerRef, infoType, requested }) {
   //
 
   return (
-    <>
-      <div className="rope">
-        <button className="rope__button-rope" type="button" aria-label="Rope for filter" title={!infoType ? 'Choose section firstly' : null} onClick={ropeHandler} />
-      </div>
-      {filterStatus && ReactDOM.createPortal(<Filter filterRef={filterRef} infoType={infoType} requested={requested} setFilterStatus={setFilterStatus} />, headerRef.current)}
-    </>
+    <div className="rope">
+      <button className="rope__button-rope" type="button" aria-label="Rope for filter" title={!infoType ? 'Choose section firstly' : null} onClick={ropeHandler} />
+    </div>
   );
 }
 
 Rope.propTypes = {
   infoType: PropTypes.string,
-  requested: PropTypes.bool.isRequired,
+  filterStatus: PropTypes.bool.isRequired,
+  setFilterStatus: PropTypes.func.isRequired,
 };
 
 Rope.defaultProps = {
   infoType: null,
 };
-
-function mapStateToProps(state) {
-  return {
-    infoType: state.infoType,
-    requested: state.postData.requested,
-  };
-}
-
-export default connect(mapStateToProps)(Rope);

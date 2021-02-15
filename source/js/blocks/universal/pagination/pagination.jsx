@@ -5,9 +5,11 @@ import PropTypes from 'prop-types';
 
 import PageItem from './page-item/page-item';
 
+import scrollToElement from '../../../utils/scroll-to-element';
+
 import { MAX_PAGE } from '../../../variables';
 
-export default function Pagination({ info, page, pageHandler }) {
+export default function Pagination({ infoType, info, page, setPage, getData, infoSection }) {
   // Заменяет в ссылке номер страницы.
 
   function replacePageNumber(link, number) {
@@ -16,7 +18,7 @@ export default function Pagination({ info, page, pageHandler }) {
 
   //
 
-  // Создание пагинации по условию. В начале и конце pageCollection всегда будут кнопки на первую страницу и последнюю.
+  // Создание пагинации по условию. В начале и конце pageCollection всегда будут кнопки на первую и последнюю страницы.
 
   function definePages(link, pageCount, currentPage) {
     const pageCollection = [];
@@ -47,6 +49,19 @@ export default function Pagination({ info, page, pageHandler }) {
 
   //
 
+  // Обработчик страниц. Запрос и получение данных, соответствующие странице.
+
+  function pageHandler(e) {
+    e.preventDefault();
+    if (e.target.tagName === 'A' && page !== +e.target.textContent) {
+      getData(e.target.href, infoType, false);
+      scrollToElement(infoSection.current);
+      setPage(+e.target.textContent);
+    }
+  }
+
+  //
+
   return (
     <section className="pagination">
       <h2 className="visually-hidden">Pagination</h2>
@@ -58,6 +73,7 @@ export default function Pagination({ info, page, pageHandler }) {
 }
 
 Pagination.propTypes = {
+  infoType: PropTypes.string.isRequired,
   info: PropTypes.shape({
     count: PropTypes.number,
     pages: PropTypes.number,
@@ -65,5 +81,6 @@ Pagination.propTypes = {
     prev: PropTypes.string,
   }).isRequired,
   page: PropTypes.number.isRequired,
-  pageHandler: PropTypes.func.isRequired,
+  setPage: PropTypes.func.isRequired,
+  getData: PropTypes.func.isRequired,
 };

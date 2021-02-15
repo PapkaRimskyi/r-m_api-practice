@@ -1,15 +1,15 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import PropTypes from 'prop-types';
 
 import { location, episode } from './table-properties/table-properties';
 
 export default function TableTemplate({ data, infoType }) {
-  const templateData = useMemo(() => defineProperties(), [data, infoType]);
+  const templateData = getTableMarkup();
 
-  // Возвращает объект, который содержит заранее подготовленные значения для th ячеек и разметку td ячеек на основе infoType.
+  // Возвращает объект, который содержит содержит заранее подготовленные значения для th ячеек и разметку td ячеек на основе infoType.
 
-  function defineProperties() {
+  function getTableMarkup() {
     switch (infoType) {
       case 'location':
         return {

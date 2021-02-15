@@ -5,7 +5,7 @@
     line-height: 1.5rem;
     color: $author-color;
     text-align: center;
-    transition: color, opacity, .5s ease-in;
+    transition: color, opacity, $transition-duration ease-in;
 
     &:hover,
     &:focus {

@@ -19,16 +19,15 @@
   &__load-button {
     &:hover,
     &:focus {
-      animation: trembling-animation .8s infinite ease-in-out;
+      animation: trembling-animation $default-animation-duration infinite ease-in-out;
     }
 
     &:active {
-      animation: size-to-small forwards .5s 1;
+      animation: size-to-small forwards $animation-duration-x2 1;
     }
 
     &:disabled {
       opacity: .5;
-      cursor: not-allowed;
     }
   }
 }

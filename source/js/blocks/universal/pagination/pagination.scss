@@ -7,7 +7,7 @@
     font-size: 1.2rem;
     line-height: 1.2rem;
     color: $black-color;
-    transition: color, scale, .3s ease-in;
+    transition: color, scale, $transition-duration ease-in;
 
     &--active {
       font-size: 1.7rem;

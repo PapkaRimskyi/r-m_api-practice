@@ -1,3 +1,5 @@
+// Объект, который отражает возможности API в фильтрации.
+
 const templateData = {
   character: {
     inputs: ['Name', 'Status', 'Species', 'Type', 'Gender'],

@@ -2,42 +2,52 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+
 import $ from 'jquery';
 
 import templateData from './template-data/template-data';
 
-import { mainApiPath } from '../../../../variables';
+import { mainApiPath } from '../../../variables';
 
-import requestData from '../../../../redux/actions/thunk-action-generations/request-data';
+import '../../../../img/chain.png';
 
-import '../../../../../img/chain.png';
+export default function Filter({ infoType, requested, setFilterStatus, filterRef, getData }) {
+  // Анимация после монтирования фильтра.
 
-function Filter({ filterRef, infoType, requested, setFilterStatus, getData }) {
   useEffect(() => {
-    $(filterRef.current).css({ transform: 'translateY(0)' });
+    $(filterRef.current).animate({ top: '50%' }, 1000);
   }, []);
 
-  function buildingtUrlByFilterData(formData) {
-    let urlResult = '';
+  //
+
+  // На основе данных из фильтра, который пользователь ввёл, создаю url ссылку для запроса на сервер.
+
+  function buildingUrlByFilterData(formData) {
+    let filterUrl = '';
     for (const [key, value] of formData) {
       if (value.trim()) {
         if (value.split(' ').length > 1) {
-          urlResult += `${urlResult ? '&' : '?'}${key}=${value.trim().toLowerCase().split(' ').filter((word) => word).join('&')}`;
+          filterUrl += `${filterUrl ? '&' : '?'}${key}=${value.trim().toLowerCase().split(' ').filter((word) => word).join('&')}`;
         } else {
-          urlResult += `${urlResult ? '&' : '?'}${key}=${value.toLowerCase().trim()}`;
+          filterUrl += `${filterUrl ? '&' : '?'}${key}=${value.toLowerCase().trim()}`;
         }
       }
     }
-    return `${mainApiPath}${infoType}/${urlResult}`;
+    return `${mainApiPath}${infoType}/${filterUrl}`;
   }
+
+  //
+
+  // Обработчик сабмита формы.
 
   function submitFormHandler(e) {
     e.preventDefault();
     const formData = new FormData(e.target).entries();
-    getData(buildingtUrlByFilterData(formData), infoType, false);
-    setFilterStatus(false);
+    $(filterRef.current).animate({ top: '-2000%' }, 300, () => setFilterStatus(false));
+    getData(buildingUrlByFilterData(formData), infoType, false);
   }
+
+  //
 
   return (
     <section ref={filterRef} className="filter">
@@ -63,9 +73,3 @@ Filter.propTypes = {
   setFilterStatus: PropTypes.func.isRequired,
   getData: PropTypes.func.isRequired,
 };
-
-const mapDispatchToProps = {
-  getData: requestData,
-};
-
-export default connect(null, mapDispatchToProps)(Filter);

@@ -12,7 +12,7 @@ export default function PageItem({ link, number, currentPage }) {
 }
 
 PageItem.propTypes = {
-  link: PropTypes.string,
+  link: PropTypes.string.isRequired,
   number: PropTypes.number.isRequired,
   currentPage: PropTypes.number.isRequired,
 };

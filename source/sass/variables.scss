@@ -25,6 +25,8 @@ $main-color: #314e1c;
 
 $main-background-color: #F7C49D;
 
+$yellow-color: rgba(186, 189, 21, .4);
+
 // Цвета для блока автора
 
 $author-color: #5872b9;
@@ -46,3 +48,13 @@ $td-color: #125e61;
 //
 
 $page-hover: #e26666;
+
+// Общее время для всех transition
+
+$transition-duration: .5s;
+
+// Время для css анимаций
+
+$default-animation-duration: .8s;
+
+$animation-duration-x2: calc(#{$default-animation-duration} / 2);

@@ -1,11 +1,13 @@
-import $ from 'jquery';
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import $ from 'jquery';
+
 import getRandomNumber from '../../../utils/get-random-number';
 
-import { ANIMATION_DELAY } from '../../../variables';
 import monologData from './monolog-data/monolog-data';
+
+import { ANIMATION_DELAY } from '../../../variables';
 
 import '../../../../img/load-info-delay.png';
 
@@ -43,13 +45,9 @@ export default function RickAppear({ infoType }) {
   // Возвращает случайную строку в зависимости от того, просматривает ли пользователь какой-либо раздел или пока не выбрал ни один.
 
   function getRandomMonologForRick() {
-    let data;
-    if (!infoType) {
-      data = monologData.dataNotLoaded;
-    } else {
-      data = monologData.dataLoaded;
-    }
-    return data[getRandomNumber(0, data.length - 1)];
+    return !infoType
+      ? monologData.dataNotLoaded[getRandomNumber(0, monologData.dataNotLoaded.length - 1)]
+      : monologData.dataLoaded[getRandomNumber(0, monologData.dataLoaded.length - 1)];
   }
 
   //

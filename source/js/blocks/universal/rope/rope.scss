@@ -5,7 +5,7 @@
 
   &__button-rope {
     width: 8px;
-    height: 60px;
+    height: 70px;
     background: url('../img/rope.png') no-repeat center center;
     background-size: cover;
     animation: rope-animation .4s ease-in-out alternate 2 paused;
@@ -28,14 +28,6 @@
     &--filter-toggle {
       animation-play-state: running;
       animation-iteration-count: 2;
-    }
-  }
-}
-
-@include media-breakpoint-up(md) {
-  .rope {
-    &__button-rope {
-      height: 70px;
     }
   }
 }
