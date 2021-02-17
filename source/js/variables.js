@@ -12,6 +12,12 @@ export const EPISODES_API = 'https://rickandmortyapi.com/api/episode';
 
 //
 
+// Доступные типы. Соблюдать последовательность!!!
+
+export const TYPE_OF_INFORMATION = ['character', 'location', 'episode'];
+
+//
+
 // Максимальное количество кнопок в пагинации
 
 export const MAX_PAGE = 4;

@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import { location, episode } from './table-properties/table-properties';
 
+import { TYPE_OF_INFORMATION } from '../../../../../variables';
+
 export default function TableTemplate({ data, infoType }) {
   const templateData = getTableMarkup();
 
@@ -11,7 +13,7 @@ export default function TableTemplate({ data, infoType }) {
 
   function getTableMarkup() {
     switch (infoType) {
-      case 'location':
+      case TYPE_OF_INFORMATION[1]:
         return {
           ...location,
           tableDataMarkup: data.map(({ id, name, type, dimension, residents }) => (
@@ -23,7 +25,7 @@ export default function TableTemplate({ data, infoType }) {
             </tr>
           )),
         };
-      case 'episode':
+      case TYPE_OF_INFORMATION[2]:
         return {
           ...episode,
           tableDataMarkup: data.map(({ id, name, air_date: airDate, episode: episodeCode, characters }) => (

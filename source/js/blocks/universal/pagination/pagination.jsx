@@ -18,36 +18,51 @@ export default function Pagination({ infoType, info, page, setPage, getData, inf
 
   //
 
-  // Создание пагинации по условию. В начале и конце pageCollection всегда будут кнопки на первую и последнюю страницы.
+  // Создание пагинации по условию.
+  // Если страниц меньше, чем MAX_PAGE в пагинации, то генерирует страницы по MAX_PAGE длине.
+  // Если страниц больше, то:
+  // 1. Пуш первой страницы.
+  // 2. Пуш остальных страниц с проверками логики.
+  // 3. Пуш последней страницы.
+  // В начале и конце всегда будут кнопки на первую и последнюю страницы.
 
   function definePages(link, pageCount, currentPage) {
     const pageCollection = [];
-    if (currentPage === 1) {
-      const iterationCount = MAX_PAGE > pageCount ? pageCount : MAX_PAGE;
-      for (let i = 1; i < iterationCount; i += 1) {
-        pageCollection.push(<PageItem key={i} link={replacePageNumber(link, i)} number={i} currentPage={currentPage} />);
-      }
-      pageCollection.push(<PageItem key={pageCount} link={replacePageNumber(link, pageCount)} number={pageCount} currentPage={currentPage} />);
-    } else if (currentPage !== 1 && currentPage !== pageCount) {
+    if (MAX_PAGE < pageCount) {
       pageCollection.push(<PageItem key={1} link={replacePageNumber(link, 1)} number={1} currentPage={currentPage} />);
-      for (let i = currentPage - 1; i <= currentPage + 1; i += 1) {
-        if (i !== 1 && i !== pageCount) {
-          pageCollection.push(<PageItem key={i} link={replacePageNumber(link, i)} number={i} currentPage={currentPage} />);
+      if (currentPage < 3) {
+        if (currentPage === 1) {
+          for (let i = currentPage + 1; i <= currentPage + 2; i += 1) {
+            pageCollection.push(<PageItem key={i} link={replacePageNumber(link, i)} number={i} currentPage={currentPage} />);
+          }
+        } else {
+          for (let i = currentPage; i <= currentPage + 1; i += 1) {
+            pageCollection.push(<PageItem key={i} link={replacePageNumber(link, i)} number={i} currentPage={currentPage} />);
+          }
+        }
+      } else if (currentPage > 2) {
+        if (currentPage !== pageCount) {
+          for (let i = currentPage - 1; i <= currentPage + 1; i += 1) {
+            if (i !== pageCount) {
+              pageCollection.push(<PageItem key={i} link={replacePageNumber(link, i)} number={i} currentPage={currentPage} />);
+            }
+          }
+        } else {
+          for (let i = currentPage - 2; i <= currentPage; i += 1) {
+            if (i !== pageCount) {
+              pageCollection.push(<PageItem key={i} link={replacePageNumber(link, i)} number={i} currentPage={currentPage} />);
+            }
+          }
         }
       }
       pageCollection.push(<PageItem key={pageCount} link={replacePageNumber(link, pageCount)} number={pageCount} currentPage={currentPage} />);
     } else {
-      if (MAX_PAGE < pageCount) {
-        pageCollection.push(<PageItem key={1} link={replacePageNumber(link, 1)} number={1} currentPage={currentPage} />);
-      }
-      for (let i = currentPage - 2; i <= currentPage; i += 1) {
+      for (let i = 1; i < MAX_PAGE; i += 1) {
         pageCollection.push(<PageItem key={i} link={replacePageNumber(link, i)} number={i} currentPage={currentPage} />);
       }
     }
     return pageCollection;
   }
-
-  //
 
   // Обработчик страниц. Запрос и получение данных, соответствующие странице.
 

@@ -7,6 +7,8 @@ import Pagination from '../../../universal/pagination/pagination';
 
 import usePrevious from '../../../../custom-hooks/use-previous';
 
+import { TYPE_OF_INFORMATION } from '../../../../variables';
+
 export default function InfoSection({ infoType, postData, getData, pushedLoadButton }) {
   const [page, setPage] = useState(null);
   const infoSection = useRef(null);
@@ -54,10 +56,10 @@ export default function InfoSection({ infoType, postData, getData, pushedLoadBut
 
   function defineTemplate(results) {
     switch (infoType) {
-      case 'character':
+      case TYPE_OF_INFORMATION[0]:
         return <CharactersTemplate data={results} />;
-      case 'location':
-      case 'episode':
+      case TYPE_OF_INFORMATION[1]:
+      case TYPE_OF_INFORMATION[2]:
         return <TableTemplate data={results} infoType={infoType} />;
       default:
         return null;

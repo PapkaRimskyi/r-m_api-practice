@@ -21,7 +21,7 @@ function Main({ infoType, postData, getData }) {
 
   return (
     <main className="container main main--hidden">
-      <LoadingOptions setPushedLoadButton={setPushedLoadButton} requested={postData.requested} getData={getData} />
+      <LoadingOptions infoType={infoType} setPushedLoadButton={setPushedLoadButton} requested={postData.requested} getData={getData} />
       <RickAppear infoType={infoType} />
       <InfoSection infoType={infoType} postData={postData} getData={getData} pushedLoadButton={pushedLoadButton} />
       {postData.requested ? <LoadStatus status="requested" /> : postData.err ? <LoadStatus status="error" /> : null}

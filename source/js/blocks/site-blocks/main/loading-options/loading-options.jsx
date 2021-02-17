@@ -4,9 +4,11 @@ import React, { useEffect, useRef } from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 
-import { CHARACTERS_API, EPISODES_API, LOCATIONS_API } from '../../../../variables';
+import classNames from 'classnames';
 
-export default function LoadingOptions({ setPushedLoadButton, requested, getData }) {
+import { CHARACTERS_API, EPISODES_API, LOCATIONS_API, TYPE_OF_INFORMATION } from '../../../../variables';
+
+export default function LoadingOptions({ infoType, setPushedLoadButton, requested, getData }) {
   const buttonListRef = useRef();
 
   // Disable кнопок во время запроса данных. Когда запрос завершается, disable убирается.
@@ -21,11 +23,11 @@ export default function LoadingOptions({ setPushedLoadButton, requested, getData
 
   function defineHrefForLoadingOptions(id) {
     switch (id) {
-      case 'character':
+      case TYPE_OF_INFORMATION[0]:
         return CHARACTERS_API;
-      case 'location':
+      case TYPE_OF_INFORMATION[1]:
         return LOCATIONS_API;
-      case 'episode':
+      case TYPE_OF_INFORMATION[2]:
         return EPISODES_API;
       default:
         return null;
@@ -50,26 +52,24 @@ export default function LoadingOptions({ setPushedLoadButton, requested, getData
     <section className="row justify-content-center loading-options">
       <h2 className="loading-options__headline">Type of loaded info:</h2>
       <ul ref={buttonListRef} className="row justify-content-between loading-options__list" onClick={loadDataByType}>
-        <li className="col loading-options__item">
-          <button id="character" className="loading-options__load-button" type="button">Characters</button>
-        </li>
-        <li className="col loading-options__item">
-          <button id="location" className="loading-options__load-button" type="button">Locations</button>
-        </li>
-        <li className="col loading-options__item">
-          <button id="episode" className="loading-options__load-button" type="button">Episodes</button>
-        </li>
+        {TYPE_OF_INFORMATION.map((type) => (
+          <li key={type} className="col loading-options__item">
+            <button id={type} className={`${classNames('loading-options__load-button', infoType === type ? ' loading-options__load-button--active' : null)}`} type="button">{`${type}s`}</button>
+          </li>
+        ))}
       </ul>
     </section>
   );
 }
 
 LoadingOptions.propTypes = {
+  infoType: PropTypes.string,
   setPushedLoadButton: PropTypes.func.isRequired,
   requested: PropTypes.bool,
   getData: PropTypes.func.isRequired,
 };
 
 LoadingOptions.defaultProps = {
+  infoType: null,
   requested: false,
 };
