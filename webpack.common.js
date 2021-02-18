@@ -1,14 +1,11 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const PATHS = {
-  src: path.resolve(__dirname, './source'),
-  build: path.resolve(__dirname, './docs'),
-  assets: 'assets/',
-};
+const PATHS = require('./webpack.paths.js');
 
 module.exports = {
   entry: `${PATHS.src}/js/index.jsx`,
@@ -113,12 +110,4 @@ module.exports = {
       ],
     }),
   ],
-  devServer: {
-    host: '192.168.1.67',
-    contentBase: `${PATHS.build}/`,
-    port: 8081,
-    open: true,
-  },
-  devtool: 'source-map',
-  target: 'web',
 };
