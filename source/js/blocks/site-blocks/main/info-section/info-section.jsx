@@ -1,45 +1,65 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
+
+import { connect } from 'react-redux';
+import requestData from '../../../../redux/actions/thunk-action-generations/request-data';
+
+import LoadStatus from '../../../universal/load-status/load-status';
 
 import CharactersTemplate from './characters-template/characters-template';
 import TableTemplate from './table-template/table-template';
 import Pagination from '../../../universal/pagination/pagination';
 
-import usePrevious from '../../../../custom-hooks/use-previous';
+import { mainApiPath, TYPE_OF_INFORMATION } from '../../../../variables';
+import TryLoadAgain from '../../../universal/try-load-again/try-load-again';
 
-import { TYPE_OF_INFORMATION } from '../../../../variables';
-
-export default function InfoSection({ infoType, postData, getData, pushedLoadButton }) {
+function InfoSection({ infoType, postData, getData }) {
   const [page, setPage] = useState(null);
   const infoSection = useRef(null);
-  const prevInfoType = usePrevious(infoType);
 
-  // Если пользователь меняет раздел, то происходит сброс счётчика страницы до 1.
-  // Если пользователь кликает на кнопку загрузки данных того же раздела, где он сейчас находится, то происходит сброс счётчика страницы до 1.
+  // При изменении infoType, происходит отправка запроса
 
   useEffect(() => {
-    if (prevInfoType !== infoType) {
-      setPage(1);
-    } else if (Object.prototype.hasOwnProperty.call(pushedLoadButton, 'buttonID')) {
-      if (pushedLoadButton.buttonID === prevInfoType) {
-        setPage(1);
-      }
-    }
-  }, [infoType, pushedLoadButton]);
+    getData(`${mainApiPath}${infoType}`, infoType, true);
+    setPage(1);
+  }, [infoType]);
 
   //
 
-  // Если появятся новые данные (postData), то создастся новая версия разметки.
+  // Мемоизирую части разметки.
+
+  const totalInfo = useMemo(() => {
+    if (postData.data) {
+      if (Object.prototype.hasOwnProperty.call(postData.data, 'info')) {
+        const { info } = postData.data;
+        return (
+          <p className="info-section__total-info">Total {`${infoType}s`}: {info.count}</p>
+        );
+      }
+    }
+    return null;
+  }, [postData.data]);
+
+  const pagination = useMemo(() => {
+    if (postData.data) {
+      if (Object.prototype.hasOwnProperty.call(postData.data, 'info')) {
+        const { info } = postData.data;
+        return (
+          <Pagination infoType={infoType} info={info} page={page} setPage={setPage} getData={getData} infoSection={infoSection} />
+        );
+      }
+    }
+    return null;
+  }, [postData.data, page]);
 
   const infoSectionMarkup = useMemo(() => {
     if (postData.data) {
       if (Object.prototype.hasOwnProperty.call(postData.data, 'results')) {
-        const { results, info } = postData.data;
+        const { results } = postData.data;
         return (
           <>
-            <p className="info-section__total-info">Total {`${infoType}s`}: {info.count}</p>
             {defineTemplate(results)}
-            <Pagination infoType={infoType} info={info} page={page} setPage={setPage} getData={getData} infoSection={infoSection} />
           </>
         );
       } if (Object.prototype.hasOwnProperty.call(postData.data, 'error')) {
@@ -51,6 +71,8 @@ export default function InfoSection({ infoType, postData, getData, pushedLoadBut
     }
     return null;
   }, [postData.data]);
+
+  //
 
   // Определяет шаблон разметки, который стоит использовать.
 
@@ -71,7 +93,22 @@ export default function InfoSection({ infoType, postData, getData, pushedLoadBut
   return (
     <section ref={infoSection} className="info-section">
       <h2 className="visually-hidden">Received information</h2>
-      {infoSectionMarkup}
+      {postData.requested
+        ? <LoadStatus status="requested" />
+        : postData.err
+          ? (
+            <>
+              <TryLoadAgain getData={getData} link={`${mainApiPath}${infoType}`} />
+              <LoadStatus status="error" />
+            </>
+          )
+          : (
+            <>
+              {totalInfo}
+              {infoSectionMarkup}
+              {pagination}
+            </>
+          )}
     </section>
   );
 }
@@ -99,11 +136,21 @@ InfoSection.propTypes = {
     err: PropTypes.string,
   }),
   getData: PropTypes.func.isRequired,
-  pushedLoadButton: PropTypes.objectOf(PropTypes.string),
 };
 
 InfoSection.defaultProps = {
   postData: null,
   infoType: null,
-  pushedLoadButton: PropTypes.object,
 };
+
+function mapStateToProps(state) {
+  return {
+    postData: state.postData,
+  };
+}
+
+const mapDispatchToProps = {
+  getData: requestData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(InfoSection);

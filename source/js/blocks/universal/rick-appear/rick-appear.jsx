@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import $ from 'jquery';
-
 import getRandomNumber from '../../../utils/get-random-number';
 
 import monologData from './monolog-data/monolog-data';

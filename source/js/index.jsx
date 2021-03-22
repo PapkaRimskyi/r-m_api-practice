@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { HashRouter } from 'react-router-dom';
 
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -18,15 +19,18 @@ import '../sass/style.scss';
 import '../img/gif/portal-gif.gif';
 import '../img/main-background-img.jpg';
 
+
 const root = document.getElementById('root');
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 
 function Index() {
   return (
     <Provider store={store}>
-      <Header />
-      <Main />
-      <Footer />
+      <HashRouter>
+        <Header />
+        <Main />
+        <Footer />
+      </HashRouter>
     </Provider>
   );
 }

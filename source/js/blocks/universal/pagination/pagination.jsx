@@ -69,7 +69,7 @@ export default function Pagination({ infoType, info, page, setPage, getData, inf
   function pageHandler(e) {
     e.preventDefault();
     if (e.target.tagName === 'A' && page !== +e.target.textContent) {
-      getData(e.target.href, infoType, false);
+      getData(e.target.href);
       scrollToElement(infoSection.current);
       setPage(+e.target.textContent);
     }

@@ -3,8 +3,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import $ from 'jquery';
-
 import templateData from './template-data/template-data';
 
 import { mainApiPath } from '../../../variables';

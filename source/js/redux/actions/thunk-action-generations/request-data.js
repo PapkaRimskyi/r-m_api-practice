@@ -6,21 +6,21 @@ import setInfoType from '../sync-action/info-type/info-type';
 
 export default function requestData(link, type, withSetInfoType) {
   return (dispatch) => {
+    dispatch(throwOffErrMessage());
     dispatch(dataRequestSended());
-    fetch(link)
-      .then((res) => (res.ok || res.status === 404 ? res : Promise.reject(new Error(`A error with ${res.status} code. Try again.`))))
-      .then((response) => response.json())
-      .then((data) => {
-        if (withSetInfoType) {
-          dispatch(setInfoType(type));
-        }
-        dispatch(dataReceived(data));
-      })
-      .catch((err) => {
-        dispatch(dataNotReceived(err.message));
-        setTimeout(() => {
-          dispatch(throwOffErrMessage());
-        }, 1500);
-      });
+    setTimeout(() => {
+      fetch(link)
+        .then((res) => (res.ok || res.status === 404 ? res : Promise.reject(new Error(`A error with ${res.status} code. Try again.`))))
+        .then((response) => response.json())
+        .then((data) => {
+          if (withSetInfoType) {
+            dispatch(setInfoType(type));
+          }
+          dispatch(dataReceived(data));
+        })
+        .catch((err) => {
+          dispatch(dataNotReceived(err.message));
+        });
+    }, 5000);
   };
 }

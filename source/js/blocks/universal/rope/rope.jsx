@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import $ from 'jquery';
-
 import '../../../../img/rope.png';
 
 export default function Rope({ infoType, filterStatus, setFilterStatus, filterRef }) {

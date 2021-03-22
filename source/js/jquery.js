@@ -1,14 +1,11 @@
-import $ from 'jquery';
-
 $(() => {
   // Когда документ полностью загружен, включается таймаут, который манипулирует порталом и, в конечном итоге, удаляет его.
   // Так же запускается анимация плавного появления заголовка.
-
   setTimeout(() => {
     $('.entrance-block').addClass('entrance-block--bgc-change');
     $('.entrance-block__animation-gif').addClass('entrance-block__animation-gif--back-animation');
     setTimeout(() => {
-      $('.entrance-block').remove();
+      window.$('.entrance-block').remove();
       const wordCollection = $('.header__welcome').find('span');
       wordCollection
         .each((index, element) => {
