@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import classNames from 'classnames';
+import { NavLink } from 'react-router-dom';
 
 export default function PageItem({ link, number, currentPage }) {
   return (
     <li className="col pagination__item">
-      <a href={link} className={classNames('pagination__link', currentPage === number ? ' pagination__link--active' : null)}>{number}</a>
+      <NavLink to={link} className="pagination__link" activeClassName={link.includes(currentPage) && 'pagination__link--active'}>{number}</NavLink>
     </li>
   );
 }

@@ -10,7 +10,7 @@ export default function LoadingOptions() {
       <ul className="row justify-content-between loading-options__list">
         {TYPE_OF_INFORMATION.map((type) => (
           <li key={type} className="col loading-options__item">
-            <NavLink id={type} to={`/${type}s`} className="loading-options__load-button" activeClassName="loading-options__load-button--active">{`${type}s`}</NavLink>
+            <NavLink id={type} to={`/${type}`} className="loading-options__load-button" activeClassName="loading-options__load-button--active">{`${type}s`}</NavLink>
           </li>
         ))}
       </ul>

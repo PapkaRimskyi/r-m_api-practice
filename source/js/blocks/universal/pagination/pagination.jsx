@@ -9,11 +9,13 @@ import scrollToElement from '../../../utils/scroll-to-element';
 
 import { MAX_PAGE } from '../../../variables';
 
-export default function Pagination({ infoType, info, page, setPage, getData, infoSection }) {
+export default function Pagination({ locationMemo, info, page, setPage, getData, infoSection }) {
   // Заменяет в ссылке номер страницы.
+  // console.log(useLocation());
 
   function replacePageNumber(link, number) {
     return link.replace(/page=(\d+)/, `page=${number}`);
+    // return link.replace(/page=(\d+)/, `page=${number}`);
   }
 
   //
@@ -81,14 +83,13 @@ export default function Pagination({ infoType, info, page, setPage, getData, inf
     <section className="pagination">
       <h2 className="visually-hidden">Pagination</h2>
       <ul className="row align-items-center pagination__list" onClick={pageHandler}>
-        {info.pages > 1 && definePages(info.next || info.prev, info.pages, page).map((pageComponent) => pageComponent)}
+        {info.pages > 1 && definePages('?page=1', info.pages, page).map((pageComponent) => pageComponent)}
       </ul>
     </section>
   );
 }
 
 Pagination.propTypes = {
-  infoType: PropTypes.string.isRequired,
   info: PropTypes.shape({
     count: PropTypes.number,
     pages: PropTypes.number,

@@ -1,4 +1,4 @@
-import { dataRequestSended, dataReceived, dataNotReceived, throwOffErrMessage } from '../sync-action/data-request/data-request';
+import { dataRequestSended, dataReceived, dataNotReceived } from '../sync-action/data-request/data-request';
 import setInfoType from '../sync-action/info-type/info-type';
 
 // Раньше setInfoType вызывался отдельно, но так как от infoType зависит форма сортировки и при ошибке запроса данных infoType всё равно бы обновлялся, я подумал, что лучше будет
@@ -6,7 +6,6 @@ import setInfoType from '../sync-action/info-type/info-type';
 
 export default function requestData(link, type, withSetInfoType) {
   return (dispatch) => {
-    dispatch(throwOffErrMessage());
     dispatch(dataRequestSended());
     setTimeout(() => {
       fetch(link)
