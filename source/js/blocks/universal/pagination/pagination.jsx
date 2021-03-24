@@ -9,13 +9,11 @@ import scrollToElement from '../../../utils/scroll-to-element';
 
 import { MAX_PAGE } from '../../../variables';
 
-export default function Pagination({ locationMemo, info, page, setPage, getData, infoSection }) {
+export default function Pagination({ info, page, setPage, infoSection }) {
   // Заменяет в ссылке номер страницы.
-  // console.log(useLocation());
 
   function replacePageNumber(link, number) {
     return link.replace(/page=(\d+)/, `page=${number}`);
-    // return link.replace(/page=(\d+)/, `page=${number}`);
   }
 
   //
@@ -71,7 +69,6 @@ export default function Pagination({ locationMemo, info, page, setPage, getData,
   function pageHandler(e) {
     e.preventDefault();
     if (e.target.tagName === 'A' && page !== +e.target.textContent) {
-      getData(e.target.href);
       scrollToElement(infoSection.current);
       setPage(+e.target.textContent);
     }
@@ -80,12 +77,15 @@ export default function Pagination({ locationMemo, info, page, setPage, getData,
   //
 
   return (
-    <section className="pagination">
-      <h2 className="visually-hidden">Pagination</h2>
-      <ul className="row align-items-center pagination__list" onClick={pageHandler}>
-        {info.pages > 1 && definePages('?page=1', info.pages, page).map((pageComponent) => pageComponent)}
-      </ul>
-    </section>
+    info ? (
+      <section className="pagination">
+        <h2 className="visually-hidden">Pagination</h2>
+        <ul className="row align-items-center pagination__list" onClick={pageHandler}>
+          {info.pages > 1 && definePages('?page=1', info.pages, page).map((pageComponent) => pageComponent)}
+        </ul>
+      </section>
+    )
+      : null
   );
 }
 
@@ -93,10 +93,12 @@ Pagination.propTypes = {
   info: PropTypes.shape({
     count: PropTypes.number,
     pages: PropTypes.number,
-    next: PropTypes.string,
-    prev: PropTypes.string,
-  }).isRequired,
-  page: PropTypes.number.isRequired,
+  }),
+  page: PropTypes.number,
   setPage: PropTypes.func.isRequired,
-  getData: PropTypes.func.isRequired,
+};
+
+Pagination.defaultProps = {
+  info: null,
+  page: 1,
 };

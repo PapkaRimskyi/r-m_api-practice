@@ -40,5 +40,9 @@ export default function CharactersTemplate({ data }) {
 }
 
 CharactersTemplate.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  data: PropTypes.arrayOf(PropTypes.object),
+};
+
+CharactersTemplate.defaultProps = {
+  data: null,
 };

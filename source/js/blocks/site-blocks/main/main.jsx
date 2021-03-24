@@ -13,15 +13,7 @@ export default function Main({ infoType }) {
       <LoadingOptions />
       <RickAppear infoType={infoType} />
       <Switch>
-        <Route path={['/character', '/character/?page=:pageNumber']}>
-          <InfoSection infoType="character" />
-        </Route>
-        {/* <Route path="/locations">
-          <InfoSection infoType="location" />
-        </Route>
-        <Route path="/episodes">
-          <InfoSection infoType="episode" />
-        </Route> */}
+        <Route path={['/character', '/location', '/episode']} component={InfoSection} />
       </Switch>
     </main>
   );

@@ -1,6 +1,6 @@
 import { DATA_REQUESTED, DATA_RECEIVED, DATA_NOT_RECEIVED } from '../../actions-name/actions-name';
 
-const defaultStructure = { requested: false, data: {}, err: null };
+const defaultStructure = { requested: false, data: null, err: null };
 
 export default function dataRequest(state = defaultStructure, { type, data, err }) {
   switch (type) {

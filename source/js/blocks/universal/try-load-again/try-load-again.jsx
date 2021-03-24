@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function TryLoadAgain({ getData, link }) {
+import { mainApiPath } from '../../../variables';
+
+export default function TryLoadAgain({ getData, locationMemo }) {
   // Попробовать загрузить данные снова
 
   function tryLoadAgain() {
-    getData(link);
+    getData(`${mainApiPath}${locationMemo}`);
   }
 
   //
@@ -17,5 +19,5 @@ export default function TryLoadAgain({ getData, link }) {
 
 TryLoadAgain.propTypes = {
   getData: PropTypes.func.isRequired,
-  link: PropTypes.string.isRequired,
+  locationMemo: PropTypes.string.isRequired,
 };
