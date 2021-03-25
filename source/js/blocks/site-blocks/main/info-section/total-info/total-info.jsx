@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 
 export default function TotalInfo({ info, infoType }) {
   return (
-    info ? (
-      <p className="info-section__total-info">Total {`${infoType}s`}: {info.count}</p>
-    )
-      : null
+    <p className="info-section__total-info">Total {`${infoType}s`}: {info.count}</p>
   );
 }
 

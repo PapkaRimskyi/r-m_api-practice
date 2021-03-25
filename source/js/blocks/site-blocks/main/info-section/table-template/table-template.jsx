@@ -9,7 +9,7 @@ import { TYPE_OF_INFORMATION } from '../../../../../variables';
 export default function TableTemplate({ data, infoType }) {
   const templateData = getTableMarkup();
 
-  // Возвращает объект, который содержит содержит заранее подготовленные значения для th ячеек и разметку td ячеек на основе infoType.
+  // Возвращает объект, который содержит заранее подготовленные значения для th ячеек и разметку td ячеек на основе infoType.
 
   function getTableMarkup() {
     switch (infoType) {

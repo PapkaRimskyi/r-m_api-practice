@@ -7,12 +7,13 @@ import requestData from '../../../../redux/actions/thunk-action-generations/requ
 
 import usePrevious from '../../../../custom-hooks/use-previous';
 
-import defineLoadStatus from '../../../universal/load-status/define-load-status';
+import LoadStatus from '../../../universal/load-status/load-status';
+
+import TotalInfo from './total-info/total-info';
 
 import CharactersTemplate from './characters-template/characters-template';
 import TableTemplate from './table-template/table-template';
 
-import TotalInfo from './total-info/total-info';
 import Pagination from '../../../universal/pagination/pagination';
 
 import { mainApiPath, TYPE_OF_INFORMATION } from '../../../../variables';
@@ -21,41 +22,21 @@ function InfoSection({ location, postData, getData }) {
   const [page, setPage] = useState(null);
   const infoSection = useRef(null);
   const { pathname, search } = location;
-  const prevPathName = usePrevious(pathname);
 
-  const locationMemo = useMemo(() => `${pathname}${search && search}`, [pathname, search]);
-  const infoTypeMemo = useMemo(() => pathname.replace(/\\|\//g, ''), [pathname]);
+  const currentLocation = useMemo(() => `${pathname}${search && search}`, [pathname, search]);
+  const prevCurrentLocation = usePrevious(currentLocation);
+  const infoType = useMemo(() => pathname.replace(/\\|\//g, ''), [pathname]);
 
-  // При изменении locationMemo, происходит запрос на сервер
+  // Изменение currentLocation влечёт отправку запроса.
 
   useEffect(() => {
-    getData(`${mainApiPath}${locationMemo}`, infoTypeMemo, true);
+    getData(`${mainApiPath}${currentLocation}`, infoType, true);
     setPaginationNumber();
-  }, [locationMemo]);
+  }, [currentLocation]);
 
   //
 
-  // Мемоизирую данные запроса
-
-  const resultsMemo = useMemo(() => {
-    if (postData.data && Object.keys(postData.data).length) {
-      const { results } = postData.data;
-      return results;
-    }
-    return null;
-  }, [postData.data]);
-
-  const infoMemo = useMemo(() => {
-    if (postData.data && Object.keys(postData.data).length) {
-      const { info } = postData.data;
-      return info;
-    }
-    return null;
-  }, [postData.data]);
-
-  //
-
-  // Устанавливаю значение страницы
+  // Устанавливаю значение пагинации.
 
   function setPaginationNumber() {
     const matched = search.match(/page=(\d+)/);
@@ -68,33 +49,39 @@ function InfoSection({ location, postData, getData }) {
 
   //
 
-  // // Определяет шаблон разметки, который стоит использовать.
+  // Определяю шаблон разметки, который нужно использовать.
 
   function defineTemplate(results) {
-    switch (infoTypeMemo) {
+    switch (infoType) {
       case TYPE_OF_INFORMATION[0]:
         return <CharactersTemplate data={results} />;
       case TYPE_OF_INFORMATION[1]:
       case TYPE_OF_INFORMATION[2]:
-        return <TableTemplate data={results} infoType={infoTypeMemo} />;
+        return <TableTemplate data={results} infoType={infoType} />;
       default:
         return null;
     }
   }
 
-  // //
+  //
+
+  // При монтировании происходит проверка: соответствует ли prevCurrentLocation и currentLocation. Проверка всегда будет ложная и пользователь ничего в первый рендер не увидит.
+  // После срабатывает useEffect, который отправляет запрос на сервер. Меняется стейт postData.requested. Пользователь уже увидит вращающийся спиннер (на этом этапе сравнение prevCurrentLocation === currentLocation будет верно, но до этой проверки дело не дойдёт)
+  // Если будет ошибка, то стейт postData.err изменится и отобразится уже сообщение об ошибке и предложение попробовать снова.
+  // Если данные были получены, то стейт postData.requested переходит в false, происходит проверка prevCurrentLocation === currentLocation и компонент выдаёт данные.
 
   return (
     <section ref={infoSection} className="info-section">
       <h2 className="visually-hidden">Received information</h2>
-      {defineLoadStatus(postData.requested, postData.err, getData, locationMemo)
-        || (
-          prevPathName === pathname
+      {postData.requested || postData.err
+        ? <LoadStatus reqStatus={postData.requested} errStatus={postData.err} getData={getData} location={currentLocation} />
+        : (
+          prevCurrentLocation === currentLocation
             ? (
               <>
-                <TotalInfo info={infoMemo} infoType={infoTypeMemo} />
-                {defineTemplate(resultsMemo)}
-                <Pagination info={infoMemo} page={page} setPage={setPage} infoSection={infoSection} />
+                <TotalInfo info={postData.data.info} infoType={infoType} />
+                {defineTemplate(postData.data.results)}
+                <Pagination info={postData.data.info} page={page} setPage={setPage} infoSection={infoSection} />
               </>
             )
             : null
