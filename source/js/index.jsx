@@ -19,7 +19,6 @@ import '../sass/style.scss';
 import '../img/gif/portal-gif.gif';
 import '../img/main-background-img.jpg';
 
-
 const root = document.getElementById('root');
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 

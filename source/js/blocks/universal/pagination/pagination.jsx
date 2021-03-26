@@ -9,7 +9,7 @@ import scrollToElement from '../../../utils/scroll-to-element';
 
 import { MAX_PAGE } from '../../../variables';
 
-export default function Pagination({ info, page, setPage, infoSection }) {
+export default function Pagination({ info, page, setPage, infoSection, currentLocation }) {
   // Заменяет в ссылке номер страницы.
 
   function replacePageNumber(link, number) {
@@ -80,7 +80,7 @@ export default function Pagination({ info, page, setPage, infoSection }) {
     <section className="pagination">
       <h2 className="visually-hidden">Pagination</h2>
       <ul className="row align-items-center pagination__list" onClick={pageHandler}>
-        {info.pages > 1 && definePages('?page=1', info.pages, page).map((pageComponent) => pageComponent)}
+        {info.pages > 1 && definePages(currentLocation, info.pages, page).map((pageComponent) => pageComponent)}
       </ul>
     </section>
   );
@@ -93,6 +93,7 @@ Pagination.propTypes = {
   }),
   page: PropTypes.number,
   setPage: PropTypes.func.isRequired,
+  currentLocation: PropTypes.string.isRequired,
 };
 
 Pagination.defaultProps = {

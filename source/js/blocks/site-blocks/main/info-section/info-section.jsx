@@ -17,6 +17,7 @@ import TableTemplate from './table-template/table-template';
 import Pagination from '../../../universal/pagination/pagination';
 
 import { mainApiPath, TYPE_OF_INFORMATION } from '../../../../variables';
+import TryLoadAgain from '../../../universal/try-load-again/try-load-again';
 
 function InfoSection({ location, postData, getData }) {
   const [page, setPage] = useState(null);
@@ -74,14 +75,19 @@ function InfoSection({ location, postData, getData }) {
     <section ref={infoSection} className="info-section">
       <h2 className="visually-hidden">Received information</h2>
       {postData.requested || postData.err
-        ? <LoadStatus reqStatus={postData.requested} errStatus={postData.err} getData={getData} location={currentLocation} />
+        ? (
+          <>
+            {postData.err && <TryLoadAgain getData={getData} location={currentLocation} />}
+            <LoadStatus reqStatus={postData.requested} errStatus={postData.err} />
+          </>
+        )
         : (
           prevCurrentLocation === currentLocation
             ? (
               <>
                 <TotalInfo info={postData.data.info} infoType={infoType} />
                 {defineTemplate(postData.data.results)}
-                <Pagination info={postData.data.info} page={page} setPage={setPage} infoSection={infoSection} />
+                <Pagination info={postData.data.info} page={page} setPage={setPage} infoSection={infoSection} currentLocation={currentLocation} />
               </>
             )
             : null

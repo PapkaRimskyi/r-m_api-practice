@@ -29,11 +29,7 @@ export default function Rope({ infoType, filterStatus, setFilterStatus, filterRe
 }
 
 Rope.propTypes = {
-  infoType: PropTypes.string,
+  infoType: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   filterStatus: PropTypes.bool.isRequired,
   setFilterStatus: PropTypes.func.isRequired,
-};
-
-Rope.defaultProps = {
-  infoType: null,
 };

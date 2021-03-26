@@ -4,9 +4,8 @@ import classNames from 'classnames';
 
 import Requested from './requested/requested';
 import Error from './error/error';
-import TryLoadAgain from '../try-load-again/try-load-again';
 
-export default function LoadStatus({ reqStatus, errStatus, getData, location }) {
+export default function LoadStatus({ reqStatus, errStatus }) {
   // Возвращает нужный компонент.
 
   function defineLoadStatus() {
@@ -17,7 +16,6 @@ export default function LoadStatus({ reqStatus, errStatus, getData, location }) 
         return (
           <>
             <Error />
-            <TryLoadAgain getData={getData} location={location} />
           </>
         );
       default:
@@ -38,8 +36,6 @@ export default function LoadStatus({ reqStatus, errStatus, getData, location }) 
 LoadStatus.propTypes = {
   reqStatus: PropTypes.bool.isRequired,
   errStatus: PropTypes.string,
-  getData: PropTypes.func.isRequired,
-  location: PropTypes.string.isRequired,
 };
 
 LoadStatus.defaultProps = {

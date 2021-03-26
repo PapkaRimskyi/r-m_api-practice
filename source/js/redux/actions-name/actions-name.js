@@ -1,5 +1,3 @@
-export const SET_INFO_TYPE = 'SET_INFO_TYPE';
-
 // Типы для async запроса.
 
 export const DATA_REQUESTED = 'DATA_REQUESTED';
