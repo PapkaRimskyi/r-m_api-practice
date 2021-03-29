@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import $ from 'jquery';
-
 import '../../../../img/rope.png';
 
 export default function Rope({ infoType, filterStatus, setFilterStatus, filterRef }) {
@@ -31,11 +29,7 @@ export default function Rope({ infoType, filterStatus, setFilterStatus, filterRe
 }
 
 Rope.propTypes = {
-  infoType: PropTypes.string,
+  infoType: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   filterStatus: PropTypes.bool.isRequired,
   setFilterStatus: PropTypes.func.isRequired,
-};
-
-Rope.defaultProps = {
-  infoType: null,
 };

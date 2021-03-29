@@ -2,8 +2,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-
-import $ from 'jquery';
+import { useHistory } from 'react-router-dom';
 
 import templateData from './template-data/template-data';
 
@@ -12,6 +11,7 @@ import { mainApiPath } from '../../../variables';
 import '../../../../img/chain.png';
 
 export default function Filter({ infoType, requested, setFilterStatus, filterRef, getData }) {
+  const history = useHistory();
   // Анимация после монтирования фильтра.
 
   useEffect(() => {
@@ -27,13 +27,14 @@ export default function Filter({ infoType, requested, setFilterStatus, filterRef
     for (const [key, value] of formData) {
       if (value.trim()) {
         if (value.split(' ').length > 1) {
-          filterUrl += `${filterUrl ? '&' : '?'}${key}=${value.trim().toLowerCase().split(' ').filter((word) => word).join('&')}`;
+          filterUrl += `${filterUrl ? '&' : '?page=1&'}${key}=${value.trim().toLowerCase().split(' ').filter((word) => word).join('&')}`;
         } else {
-          filterUrl += `${filterUrl ? '&' : '?'}${key}=${value.toLowerCase().trim()}`;
+          filterUrl += `${filterUrl ? '&' : '?page=1&'}${key}=${value.toLowerCase().trim()}`;
         }
       }
     }
-    return `${mainApiPath}${infoType}/${filterUrl}`;
+    history.push(`/${infoType}/${filterUrl}`);
+    return `${mainApiPath}/${infoType}/${filterUrl}`;
   }
 
   //
@@ -44,7 +45,7 @@ export default function Filter({ infoType, requested, setFilterStatus, filterRef
     e.preventDefault();
     const formData = new FormData(e.target).entries();
     $(filterRef.current).animate({ top: '-2000%' }, 300, () => setFilterStatus(false));
-    getData(buildingUrlByFilterData(formData), infoType, false);
+    getData(buildingUrlByFilterData(formData));
   }
 
   //
@@ -55,7 +56,7 @@ export default function Filter({ infoType, requested, setFilterStatus, filterRef
         <h2 className="filter__headline">Filter</h2>
         <form className="filter__form" method="GET" onSubmit={submitFormHandler}>
           {templateData[infoType].inputs.map((input, index) => (
-            <fieldset key={input} className="filter__fieldset">
+            <fieldset key={`${infoType}-${input}`} className="filter__fieldset">
               <label htmlFor={input.toLowerCase()} className="filter__input-label">{input}:</label>
               <input id={input.toLowerCase()} type="text" name={input.toLowerCase()} className="filter__input" placeholder={templateData[infoType].placeholders[index]} />
             </fieldset>
@@ -68,7 +69,7 @@ export default function Filter({ infoType, requested, setFilterStatus, filterRef
 }
 
 Filter.propTypes = {
-  infoType: PropTypes.string.isRequired,
+  infoType: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   requested: PropTypes.bool.isRequired,
   setFilterStatus: PropTypes.func.isRequired,
   getData: PropTypes.func.isRequired,

@@ -90,6 +90,16 @@
     line-height: 1.2rem;
     color: $td-color;
   }
+
+  &__not-found {
+    padding-top: 100px;
+    font: {
+      weight: 700;
+      size: 2rem;
+    }
+    line-height: 2rem;
+    text-align :center;
+  }
 }
 
 @include media-breakpoint-up(md) {

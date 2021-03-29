@@ -2,20 +2,42 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-// Вместо передачи данных универсальному компоненту, я решил сделать Requested и Error отдельными, так как в будущем, возможно, их можно будет переиспользовать по отдельности друг от друга.
-
 import Requested from './requested/requested';
 import Error from './error/error';
 
-export default function LoadStatus({ status }) {
+export default function LoadStatus({ reqStatus, errStatus }) {
+  // Возвращает нужный компонент.
+
+  function defineLoadStatus() {
+    switch (true) {
+      case Boolean(reqStatus):
+        return <Requested />;
+      case Boolean(errStatus):
+        return (
+          <>
+            <Error />
+          </>
+        );
+      default:
+        return null;
+    }
+  }
+
+  //
+
   return (
-    <section className={`load-status load-status${classNames(status === 'requested' ? '--requested' : '--error')}`}>
+    <section className={`load-status load-status${classNames(reqStatus ? '--requested' : '--error')}`}>
       <h2 className="visually-hidden">Simple notification</h2>
-      {status === 'requested' ? <Requested /> : <Error />}
+      {defineLoadStatus()}
     </section>
   );
 }
 
 LoadStatus.propTypes = {
-  status: PropTypes.string.isRequired,
+  reqStatus: PropTypes.bool.isRequired,
+  errStatus: PropTypes.string,
+};
+
+LoadStatus.defaultProps = {
+  errStatus: null,
 };

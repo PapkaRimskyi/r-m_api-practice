@@ -1,0 +1,19 @@
+.try-load-again {
+  margin: $margin-auto;
+  display: block;
+  font: {
+    weight: 700;
+    size: 2rem;
+  }
+  line-height: 2.5rem;
+  transition: opacity $transition-duration;
+
+  &:hover,
+  &:focus {
+    opacity: .6;
+  }
+
+  &:active {
+    opacity: .3;
+  }
+}

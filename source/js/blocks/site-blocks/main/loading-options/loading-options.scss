@@ -18,6 +18,9 @@
   }
 
   &__load-button {
+    display: inline-block;
+    color: inherit;
+
     &:hover,
     &:focus {
       animation: trembling-animation $default-animation-duration infinite ease-in-out;
@@ -25,10 +28,6 @@
 
     &:active {
       animation: size-to-small forwards $animation-duration-x2 1;
-    }
-
-    &:disabled {
-      opacity: .5;
     }
 
     &--active {

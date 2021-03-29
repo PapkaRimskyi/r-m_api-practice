@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { HashRouter } from 'react-router-dom';
 
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -24,9 +25,11 @@ const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 function Index() {
   return (
     <Provider store={store}>
-      <Header />
-      <Main />
-      <Footer />
+      <HashRouter>
+        <Header />
+        <Main />
+        <Footer />
+      </HashRouter>
     </Provider>
   );
 }

@@ -1,83 +1,111 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import CharactersTemplate from './characters-template/characters-template';
-import TableTemplate from './table-template/table-template';
-import Pagination from '../../../universal/pagination/pagination';
+import { connect } from 'react-redux';
+import requestData from '../../../../redux/actions/thunk-action-generations/request-data';
 
 import usePrevious from '../../../../custom-hooks/use-previous';
 
-import { TYPE_OF_INFORMATION } from '../../../../variables';
+import LoadStatus from '../../../universal/load-status/load-status';
 
-export default function InfoSection({ infoType, postData, getData, pushedLoadButton }) {
+import TotalInfo from './total-info/total-info';
+
+import CharactersTemplate from './characters-template/characters-template';
+import TableTemplate from './table-template/table-template';
+
+import Pagination from '../../../universal/pagination/pagination';
+
+import { mainApiPath, TYPE_OF_INFORMATION } from '../../../../variables';
+import TryLoadAgain from '../../../universal/try-load-again/try-load-again';
+
+function InfoSection({ location, postData, getData }) {
   const [page, setPage] = useState(null);
   const infoSection = useRef(null);
-  const prevInfoType = usePrevious(infoType);
+  const { pathname, search } = location;
 
-  // Если пользователь меняет раздел, то происходит сброс счётчика страницы до 1.
-  // Если пользователь кликает на кнопку загрузки данных того же раздела, где он сейчас находится, то происходит сброс счётчика страницы до 1.
+  const currentLocation = useMemo(() => `${pathname}${search || '?page=1'}`, [pathname, search]);
+  const prevCurrentLocation = usePrevious(currentLocation);
+  const infoType = useMemo(() => pathname.replace(/\\|\//g, ''), [pathname]);
+
+  // Изменение currentLocation влечёт отправку запроса.
 
   useEffect(() => {
-    if (prevInfoType !== infoType) {
-      setPage(1);
-    } else if (Object.prototype.hasOwnProperty.call(pushedLoadButton, 'buttonID')) {
-      if (pushedLoadButton.buttonID === prevInfoType) {
-        setPage(1);
-      }
-    }
-  }, [infoType, pushedLoadButton]);
+    getData(`${mainApiPath}${currentLocation}`, infoType, true);
+    setPaginationNumber();
+  }, [currentLocation]);
 
   //
 
-  // Если появятся новые данные (postData), то создастся новая версия разметки.
+  // Устанавливаю значение пагинации.
 
-  const infoSectionMarkup = useMemo(() => {
-    if (postData.data) {
-      if (Object.prototype.hasOwnProperty.call(postData.data, 'results')) {
-        const { results, info } = postData.data;
-        return (
-          <>
-            <p className="info-section__total-info">Total {`${infoType}s`}: {info.count}</p>
-            {defineTemplate(results)}
-            <Pagination infoType={infoType} info={info} page={page} setPage={setPage} getData={getData} infoSection={infoSection} />
-          </>
-        );
-      } if (Object.prototype.hasOwnProperty.call(postData.data, 'error')) {
-        const { error } = postData.data;
-        return (
-          <p className="info-section__total-info info-section__total-info--nothing">{`${error} because nothing was found`}</p>
-        );
-      }
-    }
-    return null;
-  }, [postData.data]);
-
-  // Определяет шаблон разметки, который стоит использовать.
-
-  function defineTemplate(results) {
-    switch (infoType) {
-      case TYPE_OF_INFORMATION[0]:
-        return <CharactersTemplate data={results} />;
-      case TYPE_OF_INFORMATION[1]:
-      case TYPE_OF_INFORMATION[2]:
-        return <TableTemplate data={results} infoType={infoType} />;
-      default:
-        return null;
+  function setPaginationNumber() {
+    const matched = search.match(/page=(\d+)/);
+    if (matched) {
+      setPage(+matched[1]);
+    } else {
+      setPage(1);
     }
   }
 
   //
 
+  // Определяю шаблон разметки, который нужно использовать.
+  // Если длинны нет, то возвращаю оповещение.
+
+  function defineTemplate(results) {
+    if (results.length) {
+      switch (infoType) {
+        case TYPE_OF_INFORMATION[0]:
+          return <CharactersTemplate data={results} />;
+        case TYPE_OF_INFORMATION[1]:
+        case TYPE_OF_INFORMATION[2]:
+          return <TableTemplate data={results} infoType={infoType} />;
+        default:
+          return null;
+      }
+    } else {
+      return <p className="info-section__not-found">Ничего не найдено</p>;
+    }
+  }
+
+  //
+
+  // При монтировании происходит проверка: соответствует ли prevCurrentLocation и currentLocation. Проверка всегда будет ложная и пользователь ничего в первый рендер не увидит.
+  // После срабатывает useEffect, который отправляет запрос на сервер. Меняется стейт postData.requested. Пользователь уже увидит вращающийся спиннер (на этом этапе сравнение prevCurrentLocation === currentLocation будет верно, но до этой проверки дело не дойдёт)
+  // Если будет ошибка, то стейт postData.err изменится и отобразится уже сообщение об ошибке и предложение попробовать снова.
+  // Если данные были получены, то стейт postData.requested переходит в false, происходит проверка prevCurrentLocation === currentLocation и компонент выдаёт данные.
+
   return (
     <section ref={infoSection} className="info-section">
       <h2 className="visually-hidden">Received information</h2>
-      {infoSectionMarkup}
+      {postData.requested || postData.err
+        ? (
+          <>
+            {postData.err && <TryLoadAgain getData={getData} location={currentLocation} />}
+            <LoadStatus reqStatus={postData.requested} errStatus={postData.err} />
+          </>
+        )
+        : (
+          prevCurrentLocation === currentLocation
+            ? (
+              <>
+                <TotalInfo info={postData.data.info} infoType={infoType} />
+                {defineTemplate(postData.data.results)}
+                {postData.data.info.pages > 1 && <Pagination info={postData.data.info} page={page} setPage={setPage} infoSection={infoSection} currentLocation={currentLocation} />}
+              </>
+            )
+            : null
+        )}
     </section>
   );
 }
 
 InfoSection.propTypes = {
-  infoType: PropTypes.string,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+    search: PropTypes.string,
+  }).isRequired,
   postData: PropTypes.shape({
     data: PropTypes.shape({
       error: PropTypes.string,
@@ -99,11 +127,20 @@ InfoSection.propTypes = {
     err: PropTypes.string,
   }),
   getData: PropTypes.func.isRequired,
-  pushedLoadButton: PropTypes.objectOf(PropTypes.string),
 };
 
 InfoSection.defaultProps = {
   postData: null,
-  infoType: null,
-  pushedLoadButton: PropTypes.object,
 };
+
+function mapStateToProps(state) {
+  return {
+    postData: state.postData,
+  };
+}
+
+const mapDispatchToProps = {
+  getData: requestData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(InfoSection);
