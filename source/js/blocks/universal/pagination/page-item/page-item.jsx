@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 export default function PageItem({ link, number, currentPage }) {
   return (
     <li className="col pagination__item">
-      <NavLink to={link} className="pagination__link" activeClassName={`${link.includes(currentPage) && 'pagination__link--active'}`}>{number}</NavLink>
+      <NavLink to={link} className="pagination__link" activeClassName={`${number === currentPage && 'pagination__link--active'}`} onClick={number === currentPage ? ((e) => e.preventDefault()) : null}>{number}</NavLink>
     </li>
   );
 }

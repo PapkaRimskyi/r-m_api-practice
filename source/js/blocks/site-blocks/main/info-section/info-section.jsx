@@ -24,7 +24,7 @@ function InfoSection({ location, postData, getData }) {
   const infoSection = useRef(null);
   const { pathname, search } = location;
 
-  const currentLocation = useMemo(() => `${pathname}${search && search}`, [pathname, search]);
+  const currentLocation = useMemo(() => `${pathname}${search || '?page=1'}`, [pathname, search]);
   const prevCurrentLocation = usePrevious(currentLocation);
   const infoType = useMemo(() => pathname.replace(/\\|\//g, ''), [pathname]);
 
@@ -51,16 +51,21 @@ function InfoSection({ location, postData, getData }) {
   //
 
   // Определяю шаблон разметки, который нужно использовать.
+  // Если длинны нет, то возвращаю оповещение.
 
   function defineTemplate(results) {
-    switch (infoType) {
-      case TYPE_OF_INFORMATION[0]:
-        return <CharactersTemplate data={results} />;
-      case TYPE_OF_INFORMATION[1]:
-      case TYPE_OF_INFORMATION[2]:
-        return <TableTemplate data={results} infoType={infoType} />;
-      default:
-        return null;
+    if (results.length) {
+      switch (infoType) {
+        case TYPE_OF_INFORMATION[0]:
+          return <CharactersTemplate data={results} />;
+        case TYPE_OF_INFORMATION[1]:
+        case TYPE_OF_INFORMATION[2]:
+          return <TableTemplate data={results} infoType={infoType} />;
+        default:
+          return null;
+      }
+    } else {
+      return <p className="info-section__not-found">Ничего не найдено</p>;
     }
   }
 
@@ -87,7 +92,7 @@ function InfoSection({ location, postData, getData }) {
               <>
                 <TotalInfo info={postData.data.info} infoType={infoType} />
                 {defineTemplate(postData.data.results)}
-                <Pagination info={postData.data.info} page={page} setPage={setPage} infoSection={infoSection} currentLocation={currentLocation} />
+                {postData.data.info.pages > 1 && <Pagination info={postData.data.info} page={page} setPage={setPage} infoSection={infoSection} currentLocation={currentLocation} />}
               </>
             )
             : null

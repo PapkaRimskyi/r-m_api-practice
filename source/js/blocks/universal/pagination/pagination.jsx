@@ -80,7 +80,7 @@ export default function Pagination({ info, page, setPage, infoSection, currentLo
     <section className="pagination">
       <h2 className="visually-hidden">Pagination</h2>
       <ul className="row align-items-center pagination__list" onClick={pageHandler}>
-        {info.pages > 1 && definePages(currentLocation, info.pages, page).map((pageComponent) => pageComponent)}
+        {definePages(currentLocation, info.pages, page).map((pageComponent) => pageComponent)}
       </ul>
     </section>
   );

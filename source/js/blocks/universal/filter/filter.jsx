@@ -56,7 +56,7 @@ export default function Filter({ infoType, requested, setFilterStatus, filterRef
         <h2 className="filter__headline">Filter</h2>
         <form className="filter__form" method="GET" onSubmit={submitFormHandler}>
           {templateData[infoType].inputs.map((input, index) => (
-            <fieldset key={input} className="filter__fieldset">
+            <fieldset key={`${infoType}-${input}`} className="filter__fieldset">
               <label htmlFor={input.toLowerCase()} className="filter__input-label">{input}:</label>
               <input id={input.toLowerCase()} type="text" name={input.toLowerCase()} className="filter__input" placeholder={templateData[infoType].placeholders[index]} />
             </fieldset>
