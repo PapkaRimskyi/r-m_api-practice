@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 
 import getSpecialIcon from '../../../../../utils/get-special-icon';
 
@@ -10,7 +11,7 @@ export default function CharactersTemplate({ data }) {
         <li className="info-section__character" key={id}>
           <figure className="info-section__character-photo">
             <img src={`${image}`} alt="Character face" />
-            <figcaption id={id} className="info-section__character-name">{name}</figcaption>
+            <NavLink to={`character/detailed/${id}`} className="info-section__character-name">{name}</NavLink>
           </figure>
           <section className="info-section__character-main-information">
             <h2 className="visually-hidden">Information about character</h2>

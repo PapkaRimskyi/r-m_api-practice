@@ -6,6 +6,7 @@ import { Switch, Route } from 'react-router-dom';
 import LoadingOptions from './loading-options/loading-options';
 import InfoSection from './info-section/info-section';
 import RickAppear from '../../universal/rick-appear/rick-appear';
+import DetailedInformation from './detailed-information/detailed-information';
 
 export default function Main({ infoType }) {
   return (
@@ -13,6 +14,7 @@ export default function Main({ infoType }) {
       <LoadingOptions />
       <RickAppear infoType={infoType} />
       <Switch>
+        <Route exact path={['/character/detailed/:ID', '/location/detailed/:ID', '/episode/detailed/:ID']} component={DetailedInformation} />
         <Route path={['/character', '/location', '/episode']} component={InfoSection} />
       </Switch>
     </main>

@@ -1,0 +1,38 @@
+.detailed-information {
+  justify-content: center;
+
+  &__character-photo {
+    margin-bottom: 30px;
+
+    & img {
+      margin-bottom: 10px;
+      border-radius: 30%;
+    }
+  }
+
+  &__character-name {
+    font-size: 2rem;
+    line-height: 2rem;
+    text-align: center;
+  }
+
+  &__character-info {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .detailed-information {
+
+    &__character-photo {
+      margin-bottom: 0;
+    }
+
+    &__character-history {
+      padding: 15px 5px;
+    }
+  }
+}
