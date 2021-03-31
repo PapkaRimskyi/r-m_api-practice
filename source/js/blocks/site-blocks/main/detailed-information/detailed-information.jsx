@@ -51,7 +51,7 @@ function DetailedInformation({ location, postData, getData }) {
   }
 
   return (
-    <section className="row g-4 detailed-information">
+    <section className="row gx-5 detailed-information">
       <h2 className="visually-hidden">Detailed information</h2>
       {postData.requested || postData.err
         ? (

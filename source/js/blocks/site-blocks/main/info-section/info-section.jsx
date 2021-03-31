@@ -24,14 +24,15 @@ function InfoSection({ location, postData, getData }) {
   const infoSection = useRef(null);
   const { pathname, search } = location;
 
-  const currentLocation = useMemo(() => `${pathname}${search || '?page=1'}`, [pathname, search]);
-  const prevCurrentLocation = usePrevious(currentLocation);
   const infoType = useMemo(() => pathname.replace(/\\|\//g, ''), [pathname]);
+
+  const currentLocation = useMemo(() => `/${infoType}/${search || '?page=1'}`, [pathname, search]);
+  const prevCurrentLocation = usePrevious(currentLocation);
 
   // Изменение currentLocation влечёт отправку запроса.
 
   useEffect(() => {
-    getData(`${mainApiPath}${currentLocation}`, infoType, true);
+    getData(`${mainApiPath}${currentLocation}`);
     setPaginationNumber();
   }, [currentLocation]);
 
@@ -57,7 +58,7 @@ function InfoSection({ location, postData, getData }) {
     if (results.length) {
       switch (infoType) {
         case TYPE_OF_INFORMATION[0]:
-          return <CharactersTemplate data={results} />;
+          return <CharactersTemplate data={results} infoType={infoType} />;
         case TYPE_OF_INFORMATION[1]:
         case TYPE_OF_INFORMATION[2]:
           return <TableTemplate data={results} infoType={infoType} />;

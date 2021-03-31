@@ -1,7 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
-
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useRef } from 'react';
 
 import getRandomNumber from '../../../utils/get-random-number';
 
@@ -11,43 +8,35 @@ import { ANIMATION_DELAY } from '../../../variables';
 
 import '../../../../img/load-info-delay.png';
 
-export default function RickAppear({ infoType }) {
-  const [timerID, setTimerID] = useState(null);
+export default function RickAppear() {
   const rickAppearRef = useRef(null);
 
-  // Проверка на infoType нужна для того, чтобы сбрасывать интервал, если пользователь выбрал раздел.
+  // Запускаю анимацию после монтирования
 
   useEffect(() => {
-    if (!infoType) {
-      runRickAnimation();
-    } else {
-      clearInterval(timerID);
-      runRickAnimation();
-    }
-  }, [infoType]);
+    runRickAnimation();
+  }, []);
 
   //
 
   // Запуск анимации Рика.
 
   function runRickAnimation() {
-    setTimerID(setInterval(() => {
+    setInterval(() => {
       const randomMonolog = getRandomMonologForRick();
       $(rickAppearRef.current)
         .animate({ left: '-5.5%' }, 1000, () => $(rickAppearRef.current).find('div p').text(randomMonolog).animate({ opacity: 1 }, 400))
         .delay(2000)
         .animate({ left: '-1000%' }, 1000, () => $(rickAppearRef.current).find('div p').css({ opacity: 0 }));
-    }, ANIMATION_DELAY));
+    }, ANIMATION_DELAY);
   }
 
   //
 
-  // Возвращает случайную строку в зависимости от того, просматривает ли пользователь какой-либо раздел или пока не выбрал ни один.
+  // Возвращает случайную строку.
 
   function getRandomMonologForRick() {
-    return !infoType
-      ? monologData.dataNotLoaded[getRandomNumber(0, monologData.dataNotLoaded.length - 1)]
-      : monologData.dataLoaded[getRandomNumber(0, monologData.dataLoaded.length - 1)];
+    return monologData[getRandomNumber(0, monologData.length - 1)];
   }
 
   //
@@ -63,14 +52,3 @@ export default function RickAppear({ infoType }) {
     </div>
   );
 }
-
-RickAppear.propTypes = {
-  infoType: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
-};
-
-RickAppear.defaultProps = {
-  infoType: null,
-};
