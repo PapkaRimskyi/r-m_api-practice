@@ -11,7 +11,7 @@ export default function CharactersTemplate({ data, infoType }) {
         <li className="info-section__character" key={id}>
           <figure className="info-section__character-photo">
             <img src={`${image}`} alt="Character face" />
-            <NavLink to={{ pathname: `${infoType}/detailed/${id}` }} className="info-section__character-name">{name}</NavLink>
+            <NavLink to={`/${infoType}/detailed/${id}`} className="info-section__character-name">{name}</NavLink>
           </figure>
           <section className="info-section__character-main-information">
             <h2 className="visually-hidden">Information about character</h2>

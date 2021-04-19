@@ -12,6 +12,7 @@ import LoadStatus from '../../../universal/load-status/load-status';
 import TryLoadAgain from '../../../universal/try-load-again/try-load-again';
 
 import usePrevious from '../../../../custom-hooks/use-previous';
+import TableTemplate from './table-template/table-template';
 
 function DetailedInformation({ location, postData, getData }) {
   const currentLocation = useMemo(() => `${location.pathname}`, [location.pathname]);
@@ -44,7 +45,7 @@ function DetailedInformation({ location, postData, getData }) {
         return <CharacterTemplate data={results} />;
       case TYPE_OF_INFORMATION[1]:
       case TYPE_OF_INFORMATION[2]:
-        return null;
+        return <TableTemplate data={results} infoType={infoType} />;
       default:
         return null;
     }
@@ -74,6 +75,10 @@ function DetailedInformation({ location, postData, getData }) {
 DetailedInformation.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
+  }).isRequired,
+  postData: PropTypes.shape({
+    requested: PropTypes.bool.isRequired,
+    err: PropTypes.string,
   }).isRequired,
   getData: PropTypes.func.isRequired,
 };

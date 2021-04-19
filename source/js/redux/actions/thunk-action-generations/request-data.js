@@ -6,21 +6,19 @@ import { dataRequestSended, dataReceived, dataNotReceived } from '../sync-action
 export default function requestData(link) {
   return (dispatch) => {
     dispatch(dataRequestSended());
-    setTimeout(() => {
-      fetch(link)
-        .then((res) => (res.ok || res.status === 404 ? res : Promise.reject(new Error(`A error with ${res.status} code. Try again.`))))
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.error) {
-            return {
-              info: { pages: 0, count: 0 },
-              results: [],
-            };
-          }
-          return data;
-        })
-        .then((data) => dispatch(dataReceived(data)))
-        .catch((err) => dispatch(dataNotReceived(err.message)));
-    }, 5000);
+    fetch(link)
+      .then((res) => (res.ok || res.status === 404 ? res : Promise.reject(new Error(`A error with ${res.status} code. Try again.`))))
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          return {
+            info: { pages: 0, count: 0 },
+            results: [],
+          };
+        }
+        return data;
+      })
+      .then((data) => dispatch(dataReceived(data)))
+      .catch((err) => dispatch(dataNotReceived(err.message)));
   };
 }

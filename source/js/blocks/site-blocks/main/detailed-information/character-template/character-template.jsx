@@ -2,11 +2,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import defineText from './data/define-text';
+import getText from './data/get-character-text';
 
 export default function CharacterTemplate({ data }) {
   const { name, status, species, type, gender, image, origin, location, episode } = data;
-
   return (
     <>
       <figure className="col-auto detailed-information__character-photo">
@@ -14,7 +13,7 @@ export default function CharacterTemplate({ data }) {
         <figcaption className="detailed-information__character-name">{name}</figcaption>
       </figure>
       <div className="col-auto col-md-6 detailed-information__character-history">
-        {defineText(name, status, gender, species, type, origin, location, episode).map((text, id) => <p key={`${name}-${id}`} className="detailed-information__character-info">{text}</p>)}
+        {getText(name, status, gender, species, type, origin, location, episode).map((text, id) => <p key={`${name}-${id}`} className="detailed-information__character-info">{text}</p>)}
       </div>
     </>
   );
