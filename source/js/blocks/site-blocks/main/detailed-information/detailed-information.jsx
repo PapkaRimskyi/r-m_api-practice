@@ -3,38 +3,31 @@ import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import requestData from '../../../../redux/actions/thunk-action-generations/request-data';
-import { mainApiPath, TYPE_OF_INFORMATION } from '../../../../variables';
-
-import CharacterTemplate from './character-template/character-template';
-
-import LoadStatus from '../../../universal/load-status/load-status';
-import TryLoadAgain from '../../../universal/try-load-again/try-load-again';
+import requestData from '../../../../redux/actions/thunk-action/request-data';
 
 import usePrevious from '../../../../custom-hooks/use-previous';
+
+import LoadStatus from '../../../universal/load-status/load-status';
+import CharacterTemplate from './character-template/character-template';
 import TableTemplate from './table-template/table-template';
 
+import defineInfoType from '../../../../utils/define-info-type';
+import { TYPE_OF_INFORMATION } from '../../../../variables';
+
 function DetailedInformation({ location, postData, getData }) {
-  const currentLocation = useMemo(() => `${location.pathname}`, [location.pathname]);
-  const prevCurrentLocation = usePrevious(currentLocation);
+  const { pathname } = location;
+  const currentLocation = useMemo(() => `${pathname}`, [pathname]);
+  const prevLocation = usePrevious(currentLocation);
 
-  // Мемоизирую regExp выражение.
+  const infoType = useMemo(() => defineInfoType(pathname), [currentLocation]);
 
-  const infoTypeRegExp = useMemo(() => new RegExp(`${TYPE_OF_INFORMATION.join('|')}`, 'g'), []);
-
-  //
-
-  // Определяю тип и мемоизирую при первом монтировании компонента.
-
-  const infoType = useMemo(() => currentLocation.match(infoTypeRegExp)[0], [currentLocation]);
-
-  //
+  const abortController = new AbortController();
 
   // Отправляю запрос
 
   useEffect(() => {
     const number = currentLocation.match(/\d/gi).join('');
-    getData(`${mainApiPath}/${infoType}/${number}`);
+    getData(`/${infoType}/${number}`);
   }, [currentLocation]);
 
   //
@@ -54,20 +47,13 @@ function DetailedInformation({ location, postData, getData }) {
   return (
     <section className="row gx-5 detailed-information">
       <h2 className="visually-hidden">Detailed information</h2>
-      {postData.requested || postData.err
-        ? (
-          <>
-            {postData.err && <TryLoadAgain getData={getData} location={currentLocation} />}
-            <LoadStatus reqStatus={postData.requested} errStatus={postData.err} />
-          </>
-        )
-        : (
-          prevCurrentLocation === currentLocation
-            ? (
-              defineTemplate(postData.data)
-            )
-            : null
-        )}
+      {prevLocation === currentLocation
+        ? postData.requested || postData.err
+          ? <LoadStatus requested={postData.requested} errStatus={postData.err} dataRequest={getData} signal={abortController.signal} />
+          : (
+            defineTemplate(postData.data)
+          )
+        : null}
     </section>
   );
 }

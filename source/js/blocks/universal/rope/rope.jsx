@@ -12,7 +12,7 @@ export default function Rope({ infoType, filterStatus, setFilterStatus, filterRe
     $(e.target).addClass(`${e.target.classList.value}--filter-toggle`);
     if (infoType) {
       if (!filterStatus) {
-        setFilterStatus(!filterStatus);
+        setFilterStatus((prevState) => !prevState);
       } else {
         $(filterRef.current).animate({ top: '-2000%' }, 300, () => setFilterStatus(!filterStatus));
       }
@@ -29,7 +29,11 @@ export default function Rope({ infoType, filterStatus, setFilterStatus, filterRe
 }
 
 Rope.propTypes = {
-  infoType: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
+  infoType: PropTypes.string,
   filterStatus: PropTypes.bool.isRequired,
   setFilterStatus: PropTypes.func.isRequired,
+};
+
+Rope.defaultProps = {
+  infoType: null,
 };

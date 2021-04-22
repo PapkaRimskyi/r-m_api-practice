@@ -2,11 +2,11 @@
 @import "variables.scss";
 @import "global.scss";
 
-@import "./connection-files/animation-connection-file.scss";
-@import "./connection-files/universal-connection-file.scss";
+@import "./connect/animations-connect.scss";
+@import "./connect/universal-connect.scss";
 
 @import "./blocks/entrance-block.scss";
 
-@import "./connection-files/header-connection-file.scss";
-@import "./connection-files/main-connection-file.scss";
-@import "./connection-files/footer-connection-file.scss";
+@import "./connect/header-connect.scss";
+@import "./connect/main-connect.scss";
+@import "./connect/footer-connect.scss";

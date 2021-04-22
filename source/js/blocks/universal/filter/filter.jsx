@@ -2,15 +2,14 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+
 import { useHistory } from 'react-router-dom';
 
 import templateData from './template-data/template-data';
 
-import { mainApiPath } from '../../../variables';
-
 import '../../../../img/chain.png';
 
-export default function Filter({ infoType, requested, setFilterStatus, filterRef, getData }) {
+export default function Filter({ infoType, setFilterStatus, filterRef }) {
   const history = useHistory();
   // Анимация после монтирования фильтра.
 
@@ -33,8 +32,7 @@ export default function Filter({ infoType, requested, setFilterStatus, filterRef
         }
       }
     }
-    history.push(`/${infoType}/${filterUrl}`);
-    return `${mainApiPath}/${infoType}/${filterUrl}`;
+    history.push(`/${infoType}${filterUrl}`);
   }
 
   //
@@ -45,7 +43,7 @@ export default function Filter({ infoType, requested, setFilterStatus, filterRef
     e.preventDefault();
     const formData = new FormData(e.target).entries();
     $(filterRef.current).animate({ top: '-2000%' }, 300, () => setFilterStatus(false));
-    getData(buildingUrlByFilterData(formData));
+    buildingUrlByFilterData(formData);
   }
 
   //
@@ -61,7 +59,7 @@ export default function Filter({ infoType, requested, setFilterStatus, filterRef
               <input id={input.toLowerCase()} type="text" name={input.toLowerCase()} className="filter__input" placeholder={templateData[infoType].placeholders[index]} />
             </fieldset>
           ))}
-          <button className="filter__confirm-filter" type="submit" disabled={requested}>Accept</button>
+          <button className="filter__confirm-filter" type="submit">Accept</button>
         </form>
       </div>
     </section>
@@ -69,8 +67,10 @@ export default function Filter({ infoType, requested, setFilterStatus, filterRef
 }
 
 Filter.propTypes = {
-  infoType: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
-  requested: PropTypes.bool.isRequired,
+  infoType: PropTypes.string,
   setFilterStatus: PropTypes.func.isRequired,
-  getData: PropTypes.func.isRequired,
+};
+
+Filter.defaultProps = {
+  infoType: null,
 };
