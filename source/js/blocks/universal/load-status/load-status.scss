@@ -1,8 +1,8 @@
 .load-status {
   position: fixed;
   bottom: 0;
-  left: calc(50% - (300px / 2));
-  width: 300px;
+  left: 50%;
+  transform: translateX(-50%);
   text-align: center;
   z-index: 100;
 
@@ -11,10 +11,49 @@
   }
 
   &--error {
-    bottom: -1%;
+    position: absolute;
+    bottom: 28vh;
+    left: 50%;
+    transform: translate(-50%, 50vh);
 
     & img {
-      width: 30%;
+      width: 100%;
+    }
+  }
+
+  &__error-description {
+    margin-bottom: 10px;
+    font-size: 2rem;
+    line-height: 2rem;
+  }
+
+  &__try-load-again {
+    margin: $margin-auto;
+    display: block;
+    font: {
+      weight: 700;
+      size: 2rem;
+    }
+    line-height: 2.5rem;
+    transition: opacity $transition-duration;
+
+    &:hover,
+    &:focus {
+      opacity: .6;
+    }
+
+    &:active {
+      opacity: .3;
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .load-status {
+    &--error {
+      & img {
+        width: 50%;
+      }
     }
   }
 }

@@ -1,0 +1,8 @@
+@keyframes change-loading-background-color {
+  from {
+    background-color: $black-color;
+  }
+  to {
+    background-color: $main-background-color;
+  }
+}

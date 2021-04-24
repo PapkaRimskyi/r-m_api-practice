@@ -3,6 +3,10 @@
   bottom: 0;
   right: 0;
 
+  &__list {
+    align-items: center;
+  }
+
   &__link {
     font-size: 1.2rem;
     line-height: 1.2rem;

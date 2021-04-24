@@ -7,3 +7,9 @@ export const DATA_RECEIVED = 'DATA_RECEIVED';
 export const DATA_NOT_RECEIVED = 'DATA_NOT_RECEIVED';
 
 //
+
+// Сброс
+
+export const RESET = 'RESET';
+
+//

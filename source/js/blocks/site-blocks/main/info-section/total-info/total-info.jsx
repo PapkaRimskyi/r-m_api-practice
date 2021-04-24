@@ -1,21 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function TotalInfo({ info, infoType }) {
+export default function TotalInfo({ dataCount, infoType }) {
   return (
-    <p className="info-section__total-info">Total {`${infoType}s`}: {info.count}</p>
+    <p className="info-section__total-info">Total {`${infoType}s`}: {dataCount}</p>
   );
 }
 
 TotalInfo.propTypes = {
-  info: PropTypes.shape({
-    count: PropTypes.number,
-  }),
+  dataCount: PropTypes.number.isRequired,
   infoType: PropTypes.string.isRequired,
-};
-
-TotalInfo.defaultProps = {
-  info: {
-    count: 0,
-  },
 };

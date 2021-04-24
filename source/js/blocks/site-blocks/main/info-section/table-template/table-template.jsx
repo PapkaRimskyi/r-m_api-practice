@@ -1,13 +1,34 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
-
 import PropTypes from 'prop-types';
+
+import { useHistory } from 'react-router-dom';
 
 import { location, episode } from './table-properties/table-properties';
 
-import { TYPE_OF_INFORMATION } from '../../../../../variables';
+import { ENTER, TYPE_OF_INFORMATION } from '../../../../../variables';
 
 export default function TableTemplate({ data, infoType }) {
   const templateData = getTableMarkup();
+  const history = useHistory();
+
+  // Обработчики
+
+  function trClickHandler(e) {
+    if (e.target.closest('TR') && e.target.closest('TR').id) {
+      const tr = e.target.closest('TR');
+      history.push(`/${infoType}/detailed?id=${tr.id}`);
+    }
+  }
+
+  function trEnterHandler(e) {
+    if (e.code === ENTER) {
+      trClickHandler(e);
+    }
+  }
+
+  //
 
   // Возвращает объект, который содержит заранее подготовленные значения для th ячеек и разметку td ячеек на основе infoType.
 
@@ -17,7 +38,7 @@ export default function TableTemplate({ data, infoType }) {
         return {
           ...location,
           tableDataMarkup: data.map(({ id, name, type, dimension, residents }) => (
-            <tr key={id}>
+            <tr className="info-section__table-tr" key={id} id={id} tabIndex="0">
               <td className="info-section__table-td">{name}</td>
               <td className="info-section__table-td">{type}</td>
               <td className="info-section__table-td">{dimension}</td>
@@ -29,7 +50,7 @@ export default function TableTemplate({ data, infoType }) {
         return {
           ...episode,
           tableDataMarkup: data.map(({ id, name, air_date: airDate, episode: episodeCode, characters }) => (
-            <tr key={id}>
+            <tr className="info-section__table-tr" key={id} id={id} tabIndex="0">
               <td className="info-section__table-td">{name}</td>
               <td className="info-section__table-td">{airDate}</td>
               <td className="info-section__table-td">{episodeCode}</td>
@@ -46,7 +67,7 @@ export default function TableTemplate({ data, infoType }) {
 
   return (
     <div className="row gy-5 info-section__table-container">
-      <table className="info-section__table-info">
+      <table className="info-section__table" onClick={trClickHandler} onKeyUp={trEnterHandler}>
         <tbody>
           <tr>
             {templateData.tableHeaders.map((text) => <th key={text} className="info-section__table-th">{text}</th>)}

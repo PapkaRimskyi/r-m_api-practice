@@ -16,6 +16,7 @@ import Main from './blocks/site-blocks/main/main';
 import Footer from './blocks/site-blocks/footer/footer';
 
 import '../sass/style.scss';
+
 import '../img/gif/portal-gif.gif';
 import '../img/main-background-img.jpg';
 

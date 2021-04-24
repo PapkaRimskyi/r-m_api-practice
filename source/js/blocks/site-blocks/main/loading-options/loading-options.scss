@@ -12,22 +12,21 @@
 
   &__item {
     margin-bottom: 15px;
-    font-size: 1.5rem;
-    line-height: 1.5rem;
     text-align: center;
   }
 
-  &__load-button {
+  &__load-section {
     display: inline-block;
+    font-size: 1.5rem;
+    line-height: 1.5rem;
     color: inherit;
 
-    &:hover,
-    &:focus {
-      animation: trembling-animation $default-animation-duration infinite ease-in-out;
+    &:hover {
+      animation: trembling $default-animation-duration infinite ease-in-out;
     }
 
     &:active {
-      animation: size-to-small forwards $animation-duration-x2 1;
+      animation: to-small-size forwards $animation-duration-x2 1;
     }
 
     &--active {

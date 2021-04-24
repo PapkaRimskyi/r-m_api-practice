@@ -2,22 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Requested from './requested/requested';
+import Loading from './loading/loading';
 import Error from './error/error';
 
-export default function LoadStatus({ reqStatus, errStatus }) {
-  // Возвращает нужный компонент.
+export default function LoadStatus({ requested, err, dataRequest, signal }) {
+  // Определяю, какой компонент вернуть.
 
-  function defineLoadStatus() {
+  function defineStatus() {
     switch (true) {
-      case Boolean(reqStatus):
-        return <Requested />;
-      case Boolean(errStatus):
-        return (
-          <>
-            <Error />
-          </>
-        );
+      case Boolean(requested):
+        return <Loading />;
+      case Boolean(err):
+        return <Error errCode={err} dataRequest={dataRequest} signal={signal} />;
       default:
         return null;
     }
@@ -26,18 +22,19 @@ export default function LoadStatus({ reqStatus, errStatus }) {
   //
 
   return (
-    <section className={`load-status load-status${classNames(reqStatus ? '--requested' : '--error')}`}>
+    <section className={`load-status load-status${classNames(requested ? '--requested' : '--error')}`}>
       <h2 className="visually-hidden">Simple notification</h2>
-      {defineLoadStatus()}
+      {defineStatus()}
     </section>
   );
 }
 
 LoadStatus.propTypes = {
-  reqStatus: PropTypes.bool.isRequired,
-  errStatus: PropTypes.string,
+  requested: PropTypes.bool.isRequired,
+  err: PropTypes.string,
+  dataRequest: PropTypes.func.isRequired,
 };
 
 LoadStatus.defaultProps = {
-  errStatus: null,
+  err: null,
 };
