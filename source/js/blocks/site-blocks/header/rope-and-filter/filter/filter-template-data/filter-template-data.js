@@ -1,6 +1,6 @@
 // Объект, который отражает возможности API в фильтрации.
 
-const templateData = {
+const filterTemplateData = {
   character: {
     inputs: ['Name', 'Status', 'Species', 'Type', 'Gender'],
     placeholders: ['Rick', 'Unknown', 'Human', 'Superhuman', 'Male'],
@@ -15,4 +15,4 @@ const templateData = {
   },
 };
 
-export default templateData;
+export default filterTemplateData;

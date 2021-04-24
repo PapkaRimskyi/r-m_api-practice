@@ -5,16 +5,17 @@ import PropTypes from 'prop-types';
 
 import { useHistory } from 'react-router-dom';
 
-import templateData from './template-data/template-data';
+import filterTemplateData from './filter-template-data/filter-template-data';
 
-import '../../../../img/chain.png';
+import '../../../../../../img/chain.png';
 
 export default function Filter({ infoType, setFilterStatus, filterRef }) {
   const history = useHistory();
+
   // Анимация после монтирования фильтра.
 
   useEffect(() => {
-    $(filterRef.current).animate({ top: '50%' }, 1000);
+    window.$(filterRef.current).animate({ top: '50%' }, 1000);
   }, []);
 
   //
@@ -26,7 +27,8 @@ export default function Filter({ infoType, setFilterStatus, filterRef }) {
     for (const [key, value] of formData) {
       if (value.trim()) {
         if (value.split(' ').length > 1) {
-          filterUrl += `${filterUrl ? '&' : '?page=1&'}${key}=${value.trim().toLowerCase().split(' ').filter((word) => word).join('&')}`;
+          filterUrl += `${filterUrl ? '&' : '?page=1&'}${key}=${value.trim().toLowerCase().split(' ').filter((word) => word)
+            .join('&')}`;
         } else {
           filterUrl += `${filterUrl ? '&' : '?page=1&'}${key}=${value.toLowerCase().trim()}`;
         }
@@ -42,8 +44,8 @@ export default function Filter({ infoType, setFilterStatus, filterRef }) {
   function submitFormHandler(e) {
     e.preventDefault();
     const formData = new FormData(e.target).entries();
-    $(filterRef.current).animate({ top: '-2000%' }, 300, () => setFilterStatus(false));
     buildingUrlByFilterData(formData);
+    window.$(filterRef.current).animate({ top: '-2000%' }, 300, () => setFilterStatus(false));
   }
 
   //
@@ -53,10 +55,10 @@ export default function Filter({ infoType, setFilterStatus, filterRef }) {
       <div className="filter__container">
         <h2 className="filter__headline">Filter</h2>
         <form className="filter__form" method="GET" onSubmit={submitFormHandler}>
-          {templateData[infoType].inputs.map((input, index) => (
+          {filterTemplateData[infoType].inputs.map((input, index) => (
             <fieldset key={`${infoType}-${input}`} className="filter__fieldset">
               <label htmlFor={input.toLowerCase()} className="filter__input-label">{input}:</label>
-              <input id={input.toLowerCase()} type="text" name={input.toLowerCase()} className="filter__input" placeholder={templateData[infoType].placeholders[index]} />
+              <input id={input.toLowerCase()} type="text" name={input.toLowerCase()} className="filter__input" placeholder={filterTemplateData[infoType].placeholders[index]} />
             </fieldset>
           ))}
           <button className="filter__confirm-filter" type="submit">Accept</button>

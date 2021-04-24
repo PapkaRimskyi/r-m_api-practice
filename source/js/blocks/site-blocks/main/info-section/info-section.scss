@@ -10,13 +10,6 @@
     font-size: 1.3rem;
     line-height: 1.3rem;
     color: $total-color;
-
-    &--nothing {
-      position: relative;
-      font-size: 1.5rem;
-      line-height: 1.5rem;
-      text-align: center;
-    }
   }
 
   &__character {
@@ -33,19 +26,32 @@
   &__character-photo {
     margin-bottom: 15px;
     width: 300px;
+    text-align: center;
 
     & img {
+      min-width: 300px;
+      min-height: 300px;
       border-radius: 30%;
+      font-size: 1.5rem;
     }
   }
 
   &__character-name {
-    display: block;
+    display: inline-block;
     font-size: 2rem;
     line-height: 2rem;
-    text-align: center;
     text-decoration: underline;
+    transition: scale, $transition-duration;
     color: inherit;
+
+    &:hover {
+      text-decoration-color: transparent;
+      transform: scale(.8);
+    }
+
+    &:active {
+      color: $character-name-active;
+    }
   }
 
   &__option-item {
@@ -67,13 +73,11 @@
     line-height: 1.5rem;
   }
 
-
   &__table-container {
     overflow-x: scroll;
   }
 
-  &__table-info {
-    width: 100%;
+  &__table {
     text-align: center;
     border-collapse: collapse;
   }
@@ -87,12 +91,16 @@
   }
 
   &__table-tr {
-    transition: opacity $transition-duration;
+    transition: all, $transition-duration;
     cursor: pointer;
+    outline: none;
 
     &:hover,
     &:focus {
-      opacity: .6;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 1),
+      -23px 0 20px -23px rgba(0, 0, 0, .8),
+      23px 0 20px -23px rgba(0, 0, 0, .8),
+      0 0 40px rgba(0, 0, 0, .1) inset;
     }
 
     &:active {
@@ -105,16 +113,6 @@
     font-size: 1.2rem;
     line-height: 1.2rem;
     color: $td-color;
-  }
-
-  &__not-found {
-    padding-top: 100px;
-    font: {
-      weight: 700;
-      size: 2rem;
-    }
-    line-height: 2rem;
-    text-align :center;
   }
 }
 
@@ -154,14 +152,6 @@
 
 @include media-breakpoint-up(lg) {
   .info-section {
-
-    &__character {
-
-      &--location,
-      &--episode {
-        justify-content: center;
-      }
-    }
 
     &__character-photo {
       margin-right: 10px;

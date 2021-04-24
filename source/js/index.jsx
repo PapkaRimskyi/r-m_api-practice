@@ -15,7 +15,6 @@ import Header from './blocks/site-blocks/header/header';
 import Main from './blocks/site-blocks/main/main';
 import Footer from './blocks/site-blocks/footer/footer';
 
-import 'bootstrap/scss/bootstrap.scss';
 import '../sass/style.scss';
 
 import '../img/gif/portal-gif.gif';

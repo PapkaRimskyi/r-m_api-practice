@@ -1,8 +1,9 @@
 .filter {
   position: absolute;
   top: -2000%;
-  right: calc(50% - (16.5rem / 2));
-  width: 16.5rem;
+  left: 50%;
+  width: 264px;
+  transform: translateX(-50%);
   background-color: $white-color;
   z-index: 1000;
 
@@ -10,7 +11,7 @@
   &::after {
     position: absolute;
     content: "";
-    bottom: 104%;
+    bottom: 100%;
     width: 80px;
     height: 20px;
     transform: rotate(90deg);
@@ -88,16 +89,13 @@
     line-height: 1.5rem;
     transition: letter-spacing $transition-duration;
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
       letter-spacing: 1.2px;
     }
 
     &:active {
       letter-spacing: 3.5px;
-    }
-
-    &:disabled {
-      opacity: .5;
     }
   }
 }

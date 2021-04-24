@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import TryLoadAgain from '../try-load-again/try-load-again';
-
+import TryLoadAgain from './try-load-again/try-load-again';
 import ErrorIcon from './error-icon';
 
 import setDocumentTitle from '../../../../utils/set-document-title';
+
+import { BAD_REQUEST, NOT_FOUND } from '../../../../variables';
 
 import '../../../../../img/loading-failed.png';
 
@@ -17,10 +18,10 @@ export default function Error({ errCode, dataRequest, signal }) {
   // Определяю текст ошибки.
 
   function defineErrorText() {
-    switch (errCode) {
-      case '400':
+    switch (Number(errCode)) {
+      case BAD_REQUEST:
         return 'Wrong search query';
-      case '404':
+      case NOT_FOUND:
         return 'Nothing found';
       default:
         return 'Unexpected error';
@@ -32,9 +33,9 @@ export default function Error({ errCode, dataRequest, signal }) {
   // Отдаю описание ошибки
 
   function errorHandler() {
-    switch (errCode) {
-      case '400':
-      case '404':
+    switch (Number(errCode)) {
+      case BAD_REQUEST:
+      case NOT_FOUND:
         return <p className="load-status__error-description">{defineErrorText()}</p>;
       default:
         return (

@@ -1,7 +1,7 @@
 // Подготовленные данные для табличного шаблона.
 
 export const location = {
-  tableHeaders: ['Location name', 'Type', 'Dimension', 'Location visitors'],
+  tableHeaders: ['Location name', 'Type', 'Dimension', 'Visitors'],
   tableDataMarkup: null,
 };
 

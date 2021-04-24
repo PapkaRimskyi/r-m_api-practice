@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import * as qs from 'query-string';
 
 import { connect } from 'react-redux';
-import requestData from '../../../../redux/actions/thunk-action/request-data';
+import { requestData } from '../../../../redux/actions/thunk-action/request-data';
 import { dataReset } from '../../../../redux/actions/data-request/data-request';
 
 import usePrevious from '../../../../custom-hooks/use-previous';
@@ -59,7 +59,6 @@ function InfoSection({ location, postData, getData, resetData }) {
   //
 
   // Определяю шаблон разметки, который нужно использовать.
-  // Если длинны нет, то возвращаю оповещение.
 
   function defineTemplate(results) {
     switch (infoType) {
@@ -92,7 +91,7 @@ function InfoSection({ location, postData, getData, resetData }) {
           ? <LoadStatus requested={postData.requested} err={postData.err} dataRequest={getData} signal={abortController.signal} />
           : (
             <>
-              <TotalInfo info={postData.data.info} infoType={infoType} />
+              <TotalInfo dataCount={postData.data.info.count} infoType={infoType} />
               {defineTemplate(postData.data.results)}
               {postData.data.info.pages > 1 && <Pagination info={postData.data.info} page={page} setPage={setPage} currentLocation={currentLocation} />}
             </>

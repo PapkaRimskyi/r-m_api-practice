@@ -1,28 +1,28 @@
 .entrance-block {
-  position: absolute;
-  height: 100%;
+  position: fixed;
+  height: 100vh;
   display: flex;
   justify-content: center;
-  z-index: 1000;
   background-color: $black-color;
+  z-index: 1000;
 
   &--bgc-change {
-    animation-name: smooth-color-change;
-    animation-duration: .8s;
+    animation-name: change-loading-background-color;
+    animation-duration: $default-animation-duration;
     animation-fill-mode: forwards;
   }
 
   &__animation-gif {
     align-self: center;
-    animation-name: entrance-animation;
+    animation-name: show-loading-spinner;
     animation-fill-mode: forwards;
     animation-timing-function: ease-in-out;
-    animation-duration: .8s;
+    animation-duration: $animation-duration-x2;
     opacity: 0;
 
     &--back-animation {
-      animation-name: exit-animation;
-      animation-duration: .8s;
+      animation-name: hide-loading-spinner;
+      animation-duration: $default-animation-duration;
     }
   }
 }

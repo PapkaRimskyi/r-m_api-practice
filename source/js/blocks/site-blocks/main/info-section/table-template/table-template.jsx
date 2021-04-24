@@ -7,18 +7,28 @@ import { useHistory } from 'react-router-dom';
 
 import { location, episode } from './table-properties/table-properties';
 
-import { TYPE_OF_INFORMATION } from '../../../../../variables';
+import { ENTER, TYPE_OF_INFORMATION } from '../../../../../variables';
 
 export default function TableTemplate({ data, infoType }) {
   const templateData = getTableMarkup();
   const history = useHistory();
 
+  // Обработчики
+
   function trClickHandler(e) {
-    if (e.target.closest('TR')) {
+    if (e.target.closest('TR') && e.target.closest('TR').id) {
       const tr = e.target.closest('TR');
-      history.push(`/${infoType}/detailed/${tr.id}`);
+      history.push(`/${infoType}/detailed?id=${tr.id}`);
     }
   }
+
+  function trEnterHandler(e) {
+    if (e.code === ENTER) {
+      trClickHandler(e);
+    }
+  }
+
+  //
 
   // Возвращает объект, который содержит заранее подготовленные значения для th ячеек и разметку td ячеек на основе infoType.
 
@@ -57,7 +67,7 @@ export default function TableTemplate({ data, infoType }) {
 
   return (
     <div className="row gy-5 info-section__table-container">
-      <table className="info-section__table-info" onClick={trClickHandler}>
+      <table className="info-section__table" onClick={trClickHandler} onKeyUp={trEnterHandler}>
         <tbody>
           <tr>
             {templateData.tableHeaders.map((text) => <th key={text} className="info-section__table-th">{text}</th>)}

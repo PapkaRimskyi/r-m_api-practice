@@ -1,6 +1,9 @@
 .detailed-information {
-  margin-bottom: 15px;
-  justify-content: center;
+  position: relative;
+
+  &__character-information {
+    justify-content: center;
+  }
 
   &__character-photo {
     margin-bottom: 30px;

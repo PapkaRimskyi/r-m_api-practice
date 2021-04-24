@@ -1,11 +1,10 @@
-/* eslint-disable no-nested-ternary */
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import LoadingOptions from './loading-options/loading-options';
-import InfoSection from './info-section/info-section';
-import RickAppear from '../../universal/rick-appear/rick-appear';
+import RickAppear from './rick-appear/rick-appear';
 import DetailedInformation from './detailed-information/detailed-information';
+import InfoSection from './info-section/info-section';
 
 export default function Main() {
   return (
@@ -13,8 +12,8 @@ export default function Main() {
       <LoadingOptions />
       <RickAppear />
       <Switch>
-        <Route exact path={['/character/detailed/:ID', '/location/detailed/:ID', '/episode/detailed/:ID']} component={DetailedInformation} />
-        <Route path={['/character', '/location', '/episode']} component={InfoSection} />
+        <Route exact path={['/character/detailed', '/location/detailed', '/episode/detailed']} component={DetailedInformation} />
+        <Route exact path={['/character', '/location', '/episode']} component={InfoSection} />
       </Switch>
     </main>
   );

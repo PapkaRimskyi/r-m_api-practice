@@ -1,9 +1,8 @@
-@keyframes size-to-small {
+@keyframes to-small-size {
   from {
     transform: scale(1);
   }
   to {
     transform: scale(.6);
-    color: $white-color;
   }
 }

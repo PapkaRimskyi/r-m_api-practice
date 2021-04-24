@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 
-import getRandomNumber from '../../../utils/get-random-number';
+import getRandomNumber from '../../../../utils/get-random-number';
 
 import monologData from './monolog-data/monolog-data';
 
-import { ANIMATION_DELAY } from '../../../variables';
+import { ANIMATION_DELAY } from '../../../../variables';
 
-import '../../../../img/load-info-delay.png';
+import '../../../../../img/load-info-delay.png';
 
 export default function RickAppear() {
   const rickAppearRef = useRef(null);
@@ -24,10 +24,10 @@ export default function RickAppear() {
   function runRickAnimation() {
     setInterval(() => {
       const randomMonolog = getRandomMonologForRick();
-      $(rickAppearRef.current)
-        .animate({ left: '-5.5%' }, 1000, () => $(rickAppearRef.current).find('div p').text(randomMonolog).animate({ opacity: 1 }, 400))
+      window.$(rickAppearRef.current)
+        .animate({ left: '-5.5%' }, 1000, () => window.$(rickAppearRef.current).find('div p').text(randomMonolog).animate({ opacity: 1 }, 400))
         .delay(2000)
-        .animate({ left: '-1000%' }, 1000, () => $(rickAppearRef.current).find('div p').css({ opacity: 0 }));
+        .animate({ left: '-1000%' }, 1000, () => window.$(rickAppearRef.current).find('div p').css({ opacity: 0 }));
     }, ANIMATION_DELAY);
   }
 

@@ -11,10 +11,10 @@ function defineGender(gender) {
       case 'female':
         return { first: 'She', second: 'Her' };
       default:
-        return null;
+        return { first: 'It', second: 'It' };
     }
   }
-  return { first: 'It', second: 'It' };
+  return null;
 }
 
 //

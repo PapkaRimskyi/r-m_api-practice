@@ -3,7 +3,7 @@ import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import requestData from '../../../../redux/actions/thunk-action/request-data';
+import { requestDetailedData } from '../../../../redux/actions/thunk-action/request-data';
 
 import usePrevious from '../../../../custom-hooks/use-previous';
 
@@ -12,25 +12,29 @@ import CharacterTemplate from './character-template/character-template';
 import TableTemplate from './table-template/table-template';
 
 import defineInfoType from '../../../../utils/define-info-type';
+import setDocumentTitle from '../../../../utils/set-document-title';
 import { TYPE_OF_INFORMATION } from '../../../../variables';
 
 function DetailedInformation({ location, postData, getData }) {
-  const { pathname } = location;
-  const currentLocation = useMemo(() => `${pathname}`, [pathname]);
+  const { pathname: currentLocation, search } = location;
   const prevLocation = usePrevious(currentLocation);
 
-  const infoType = useMemo(() => defineInfoType(pathname), [currentLocation]);
-
+  const infoType = useMemo(() => defineInfoType(currentLocation), [currentLocation]);
   const abortController = new AbortController();
 
   // Отправляю запрос
 
   useEffect(() => {
-    const number = currentLocation.match(/\d/gi).join('');
-    getData(`/${infoType}/${number}`);
-  }, [currentLocation]);
+    getData(search, infoType, abortController.signal);
+  }, [`${currentLocation}${search}`]);
 
   //
+
+  useEffect(() => {
+    if (postData.data) {
+      setDocumentTitle(`${postData.data.name}`);
+    }
+  }, [postData.data]);
 
   function defineTemplate(results) {
     switch (infoType) {
@@ -45,11 +49,11 @@ function DetailedInformation({ location, postData, getData }) {
   }
 
   return (
-    <section className="row gx-5 detailed-information">
+    <section className="detailed-information">
       <h2 className="visually-hidden">Detailed information</h2>
       {prevLocation === currentLocation
         ? postData.requested || postData.err
-          ? <LoadStatus requested={postData.requested} errStatus={postData.err} dataRequest={getData} signal={abortController.signal} />
+          ? <LoadStatus requested={postData.requested} err={postData.err} dataRequest={getData} signal={abortController.signal} />
           : (
             defineTemplate(postData.data)
           )
@@ -61,6 +65,7 @@ function DetailedInformation({ location, postData, getData }) {
 DetailedInformation.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
+    search: PropTypes.string,
   }).isRequired,
   postData: PropTypes.shape({
     requested: PropTypes.bool.isRequired,
@@ -76,7 +81,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  getData: requestData,
+  getData: requestDetailedData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailedInformation);
