@@ -32,7 +32,7 @@ export function requestDetailedData(search, infoType, signal) {
   return async (dispatch) => {
     try {
       const { id } = qs.parse(search);
-      if (!id) {
+      if (!id || Number.isNaN(Number(id))) {
         throw new Error(BAD_REQUEST);
       }
       dispatch(requestData(`/${infoType}/${id}`, signal));

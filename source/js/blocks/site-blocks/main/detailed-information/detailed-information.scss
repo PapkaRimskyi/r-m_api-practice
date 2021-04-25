@@ -1,5 +1,6 @@
 .detailed-information {
   position: relative;
+  padding-bottom: 60px;
 
   &__character-information {
     justify-content: center;
@@ -7,9 +8,14 @@
 
   &__character-photo {
     margin-bottom: 30px;
+    text-align: center;
 
     & img {
       margin-bottom: 10px;
+      min-width: 300px;
+      min-height: 300px;
+      font-size: 1.5rem;
+      background-color: rgba(0, 0, 0, .2);
       border-radius: 30%;
     }
   }
